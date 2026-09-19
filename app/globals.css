@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+:root {
+  --color-off-black: #1c1917;
+  --color-ink: #292524;
+  --color-ecru: #faf8f5;
+  --color-cream: #f4efe6;
+  --color-stone: #78716c;
+  --color-border-dark: #e7e2d8;
+  --color-border-light: #f0ebe1;
+  --color-bronze: #a36b4f;
+}
+
+@theme inline {
+  --color-off-black: var(--color-off-black);
+  --color-ink: var(--color-ink);
+  --color-ecru: var(--color-ecru);
+  --color-cream: var(--color-cream);
+  --color-stone: var(--color-stone);
+  --color-border-dark: var(--color-border-dark);
+  --color-border-light: var(--color-border-light);
+  --color-bronze: var(--color-bronze);
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-geist);
+  --animate-fade-in: fade-in 600ms ease forwards;
+  --animate-ticker: ticker 40s linear infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+body {
+  background: var(--color-ecru);
+  color: var(--color-off-black);
+  font-family: var(--font-body), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom utility for subtle tactile micro-interactions */
+.active-tactile:active {
+  transform: scale(0.98);
+  transition: transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar styling for high-end luxury feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ecru);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-dark);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-stone);
+}
+
