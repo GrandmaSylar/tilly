@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useMemo, useReducer, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useReducer, useRef, useState, type ReactNode } from "react";
 
 export type CartItem = {
   slug: string;
@@ -19,7 +19,8 @@ type CartAction =
   | { type: "ADD_ITEM"; payload: Omit<CartItem, "quantity"> & { quantity?: number } }
   | { type: "REMOVE_ITEM"; payload: { slug: string; size: string } }
   | { type: "UPDATE_QUANTITY"; payload: { slug: string; size: string; quantity: number } }
-  | { type: "CLEAR_CART" };
+  | { type: "CLEAR_CART" }
+  | { type: "HYDRATE"; payload: CartItem[] };
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
@@ -65,6 +66,9 @@ function cartReducer(state: CartState, action: CartAction): CartState {
     case "CLEAR_CART":
       return { items: [] };
 
+    case "HYDRATE":
+      return { items: action.payload };
+
     default:
       return state;
   }
@@ -83,11 +87,33 @@ type CartContextValue = {
   closeCart: () => void;
 };
 
+const STORAGE_KEY = "tilly_cart";
+
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, { items: [] });
   const [isOpen, setIsOpen] = useState(false);
+  const hydrated = useRef(false);
+
+  // Restore the bag after mount so server and client render the same markup
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) dispatch({ type: "HYDRATE", payload: JSON.parse(saved) });
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    // Skip the first run so the empty initial state never overwrites what was saved
+    if (!hydrated.current) {
+      hydrated.current = true;
+      return;
+    }
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items));
+    } catch {}
+  }, [state.items]);
 
   const value = useMemo<CartContextValue>(() => {
     const itemCount = state.items.reduce((total, item) => total + item.quantity, 0);

@@ -1,180 +1,200 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { List, X, MagnifyingGlass, Heart, Bag } from "@phosphor-icons/react";
+import { useRouter } from "next/navigation";
+import { List, X, MagnifyingGlass, Heart, ShoppingCart, WhatsappLogo, ArrowRight } from "@phosphor-icons/react";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
+import { WHATSAPP_BUSINESS_NUMBER } from "@/lib/whatsapp";
 
 const NAV_LINKS = [
-  { label: "Collection", href: "/shop" },
-  { label: "Perfumes", href: "/shop?category=Perfumes" },
-  { label: "Bags", href: "/shop?category=Bags" },
-  { label: "Clothing", href: "/shop?category=Clothing" },
-  { label: "Accessories", href: "/shop?category=Accessories" },
-  { label: "Beauty", href: "/shop?category=Beauty" },
+  { label: "Shop", href: "/shop" },
+  { label: "Categories", href: "/categories" },
+  { label: "New Arrivals", href: "/shop?sort=newest" },
+  { label: "GH₵1,000 & Below", href: "/shop?price=1000" },
+  { label: "Bestsellers", href: "/shop?sort=popular" },
+  { label: "Deals", href: "/shop?sale=1", accent: true },
 ];
 
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [query, setQuery] = useState("");
   const { itemCount, openCart } = useCart();
+  const { slugs } = useWishlist();
+
+  // Replay the badge bump whenever the count goes up
+  const [bumpKey, setBumpKey] = useState(0);
+  const lastCount = useRef(itemCount);
+  useEffect(() => {
+    if (itemCount > lastCount.current) setBumpKey((k) => k + 1);
+    lastCount.current = itemCount;
+  }, [itemCount]);
 
   useEffect(() => {
-    function handleScroll() {
-      setIsScrolled(window.scrollY > 40);
-    }
+    if (!isMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsMenuOpen(false);
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  function handleSearch(e: FormEvent) {
+    e.preventDefault();
+    const q = query.trim();
+    router.push(q ? `/shop?search=${encodeURIComponent(q)}` : "/shop");
+    setIsMenuOpen(false);
+  }
+
+  const searchField = (
+    <form role="search" onSubmit={handleSearch} className="relative w-full">
+      <MagnifyingGlass size={16} className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-slate" />
+      <input
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search perfumes, bags, linen…"
+        aria-label="Search products"
+        className="h-10 w-full rounded-full border border-line bg-mist pr-4 pl-10 text-sm text-ink placeholder:text-slate transition-colors focus:border-mint focus:bg-white focus:outline-none"
+      />
+    </form>
+  );
 
   return (
     <>
-      <header
-        className={`sticky top-0 z-30 w-full transition-all duration-300 ${
-          isScrolled
-            ? "border-b border-border-dark bg-ecru/95 backdrop-blur-md py-3 shadow-xs"
-            : "bg-ecru/80 backdrop-blur-sm py-4 border-b border-border-light"
-        }`}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
-          <Link href="/" className="block active-tactile transition-opacity hover:opacity-85">
-            <Image
-              src="/logo.png"
-              alt="Tilly's Gallery — Accra"
-              width={624}
-              height={414}
-              priority
-              className="h-12 w-auto object-contain"
-            />
+      <header className="sticky top-0 z-40 border-b border-line bg-white/85 backdrop-blur-md">
+        <div className="mx-auto flex h-[70px] max-w-7xl items-center gap-6 px-4 sm:px-6">
+          <Link href="/" className="press shrink-0" aria-label="Tilly's Gallery home">
+            <Image src="/logo.png" alt="Tilly's Gallery" width={624} height={414} priority className="h-[54px] w-auto" />
           </Link>
 
-          <nav className="hidden items-center gap-8 md:flex">
+          <nav className="hidden items-center gap-5 xl:flex" aria-label="Main">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-xs tracking-widest text-off-black uppercase font-medium transition-colors hover:text-bronze underline-offset-8 hover:underline"
+                className={`text-[15px] whitespace-nowrap transition-colors ${
+                  link.accent ? "font-semibold text-coral hover:text-danger" : "text-slate hover:text-brand"
+                }`}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <div className="flex items-center gap-5 text-off-black">
-            <button
-              type="button"
-              aria-label="Search"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="active-tactile p-1 transition-colors hover:text-bronze"
-            >
-              <MagnifyingGlass size={20} />
-            </button>
+          <div className="ml-auto hidden w-full max-w-[260px] md:block">{searchField}</div>
+
+          <div className="ml-auto flex items-center gap-1 md:ml-0">
             <Link
-              href="/shop"
-              aria-label="Wishlist"
-              className="active-tactile p-1 transition-colors hover:text-bronze hidden sm:block"
+              href="/wishlist"
+              aria-label={`Wishlist, ${slugs.length} saved`}
+              className="press relative grid size-10 place-items-center rounded-full text-brand hover:bg-mist"
             >
-              <Heart size={20} />
+              <Heart size={22} />
+              {slugs.length > 0 && <CountBadge value={slugs.length} />}
             </Link>
             <button
               type="button"
-              aria-label="Open cart"
               onClick={openCart}
-              className="active-tactile relative p-1 transition-colors hover:text-bronze"
+              aria-label={`Open cart, ${itemCount} items`}
+              className="press relative grid size-10 place-items-center rounded-full text-brand hover:bg-mist"
             >
-              <Bag size={20} />
-              {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-off-black text-[10px] font-semibold text-ecru">
-                  {itemCount}
-                </span>
-              )}
+              <ShoppingCart size={22} />
+              {itemCount > 0 && <CountBadge key={bumpKey} value={itemCount} bump={bumpKey > 0} />}
             </button>
+            <a
+              href={`https://wa.me/${WHATSAPP_BUSINESS_NUMBER}`}
+              target="_blank"
+              rel="noreferrer"
+              className="press ml-2 hidden h-9 items-center rounded-full bg-brand px-4 text-[13px] font-semibold text-white hover:bg-brand-soft sm:inline-flex"
+            >
+              Concierge
+            </a>
             <button
               type="button"
               aria-label="Open menu"
+              aria-expanded={isMenuOpen}
               onClick={() => setIsMenuOpen(true)}
-              className="active-tactile md:hidden p-1 text-off-black"
+              className="press grid size-10 place-items-center rounded-full text-brand hover:bg-mist xl:hidden"
             >
               <List size={24} />
             </button>
           </div>
         </div>
-
-        {/* Quick Search Drawer */}
-        {isSearchOpen && (
-          <div className="border-t border-border-dark bg-cream px-6 py-4 transition-all duration-300">
-            <div className="mx-auto flex max-w-2xl items-center gap-3">
-              <MagnifyingGlass size={18} className="text-stone" />
-              <input
-                type="text"
-                placeholder="Search Labadi perfume, Osu totes, linen trousers..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-transparent text-sm text-off-black placeholder:text-stone focus:outline-none"
-                autoFocus
-              />
-              {searchQuery && (
-                <Link
-                  href={`/shop?search=${encodeURIComponent(searchQuery)}`}
-                  onClick={() => setIsSearchOpen(false)}
-                  className="text-xs uppercase tracking-widest text-bronze font-medium"
-                >
-                  Search
-                </Link>
-              )}
-              <button
-                type="button"
-                onClick={() => setIsSearchOpen(false)}
-                className="text-stone hover:text-off-black"
-              >
-                <X size={18} />
-              </button>
-            </div>
-          </div>
-        )}
+        <div className="px-4 pb-3 md:hidden">{searchField}</div>
       </header>
 
-      {/* Mobile Fullscreen Menu Drawer */}
+      {/* Mobile menu */}
       <div
-        className={`fixed inset-0 z-50 flex flex-col bg-ecru transition-transform duration-300 ease-out md:hidden ${
-          isMenuOpen ? "translate-y-0" : "-translate-y-full"
+        onClick={() => setIsMenuOpen(false)}
+        className={`fixed inset-0 z-50 bg-brand/45 transition-opacity duration-300 xl:hidden ${
+          isMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      />
+      <aside
+        aria-label="Menu"
+        aria-hidden={!isMenuOpen}
+        inert={!isMenuOpen}
+        className={`fixed inset-y-0 right-0 z-50 flex w-[88%] max-w-sm flex-col bg-white shadow-[-24px_0_48px_-24px_oklch(22.51%_0.051_255.57/0.35)] transition-transform duration-[420ms] ease-[var(--ease-drawer)] xl:hidden ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-border-dark px-6 py-4">
-          <span className="font-display text-lg tracking-wide text-off-black">Tilly&apos;s Maison</span>
+        <div className="flex h-[70px] items-center justify-between border-b border-line px-5">
+          <span className="font-display text-lg font-bold tracking-tight text-brand">Menu</span>
           <button
             type="button"
             aria-label="Close menu"
             onClick={() => setIsMenuOpen(false)}
-            className="active-tactile p-2 text-off-black"
+            className="press grid size-10 place-items-center rounded-full text-brand hover:bg-mist"
           >
-            <X size={24} />
+            <X size={22} />
           </button>
         </div>
-
-        <nav className="flex flex-1 flex-col items-center justify-center gap-6 px-6 py-12">
+        <nav className="flex flex-1 flex-col overflow-y-auto px-3 py-4" aria-label="Mobile">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.label}
               href={link.href}
               onClick={() => setIsMenuOpen(false)}
-              className="font-display text-3xl font-light text-off-black transition-colors hover:text-bronze"
+              className={`press flex items-center justify-between rounded-2xl px-4 py-3.5 font-display text-xl font-bold tracking-tight hover:bg-mist ${
+                link.accent ? "text-coral" : "text-brand"
+              }`}
             >
               {link.label}
+              <ArrowRight size={18} className="text-slate" />
             </Link>
           ))}
-
-          <div className="mt-8 flex flex-col items-center gap-3 text-center">
-            <span className="text-xs tracking-widest text-stone uppercase">Ghana Flagship</span>
-            <p className="text-sm font-light text-off-black">Airport Residential Area, Accra</p>
-          </div>
         </nav>
-      </div>
+        <div className="border-t border-line p-5">
+          <a
+            href={`https://wa.me/${WHATSAPP_BUSINESS_NUMBER}`}
+            target="_blank"
+            rel="noreferrer"
+            className="press flex h-12 items-center justify-center gap-2 rounded-full bg-brand font-semibold text-white"
+          >
+            <WhatsappLogo size={20} weight="fill" className="text-mint" />
+            Chat with our concierge
+          </a>
+          <p className="mt-3 text-center text-xs text-slate">Airport Residential Area, Accra</p>
+        </div>
+      </aside>
     </>
   );
 }
 
+function CountBadge({ value, bump }: { value: number; bump?: boolean }) {
+  return (
+    <span
+      className={`tabular absolute -top-0.5 -right-0.5 grid min-w-[18px] place-items-center rounded-full bg-mint px-1 text-[10px] leading-[18px] font-bold text-brand ${
+        bump ? "bump" : ""
+      }`}
+    >
+      {value}
+    </span>
+  );
+}

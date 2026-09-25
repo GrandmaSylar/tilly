@@ -3,211 +3,194 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Minus, Plus, Truck } from "@phosphor-icons/react";
-import { productImageSrc, type Product } from "@/lib/products";
+import { Heart, Minus, Plus, Truck, ShieldCheck, WhatsappLogo, Check } from "@phosphor-icons/react";
+import { productImageSrc, isLowStock, type Product } from "@/lib/products";
+import { cedis, discountPercent } from "@/lib/format";
+import { WHATSAPP_BUSINESS_NUMBER } from "@/lib/whatsapp";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 
-const ACCORDIONS = ["Description", "Details & Care", "Delivery & Returns"] as const;
-const THUMBNAIL_FOCAL_POINTS = ["center", "25% 15%", "75% 30%", "50% 85%"] as const;
+const FOCAL_POINTS = ["center", "25% 15%", "75% 30%", "50% 85%"] as const;
 
 export function ProductDetail({ product }: { product: Product }) {
   const { addItem, openCart } = useCart();
-  const [activeThumbnail, setActiveThumbnail] = useState(0);
-  const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] ?? null);
+  const { has, toggle } = useWishlist();
+  const [focal, setFocal] = useState(0);
+  const [size, setSize] = useState(product.sizes?.[0] ?? null);
   const [quantity, setQuantity] = useState(1);
-  const [isLiked, setIsLiked] = useState(false);
-  const [openAccordion, setOpenAccordion] = useState<string | null>("Description");
+  const [added, setAdded] = useState(false);
   const image = productImageSrc(product.slug);
+  const liked = has(product.slug);
+  const off = discountPercent(product.price, product.originalPrice);
+  const low = isLowStock(product);
+  const maxQty = product.stockQuantity ?? 99;
 
-  function handleAddToBag() {
-    addItem({
-      slug: product.slug,
-      name: product.name,
-      price: product.price,
-      size: selectedSize ?? "One Size",
-      image,
-      quantity,
-    });
+  function handleAdd() {
+    addItem({ slug: product.slug, name: product.name, price: product.price, size: size ?? "One Size", image, quantity });
+    setAdded(true);
     openCart();
+    window.setTimeout(() => setAdded(false), 2000);
   }
 
-  return (
-    <main className="mx-auto max-w-7xl px-6 py-12 md:py-16">
-      {/* Breadcrumb Navigation */}
-      <div className="mb-8 flex items-center gap-2 text-xs text-stone">
-        <Link href="/" className="hover:text-off-black">Home</Link>
-        <span>/</span>
-        <Link href="/shop" className="hover:text-off-black">Shop</Link>
-        <span>/</span>
-        <Link href={`/shop?category=${product.category}`} className="hover:text-off-black">{product.category}</Link>
-        <span>/</span>
-        <span className="text-off-black font-medium">{product.name}</span>
-      </div>
+  const askText = `Hi Tilly's Gallery, I'd like to ask about the ${product.name}${size ? ` (size ${size})` : ""}.`;
 
-      <div className="flex flex-col gap-12 md:flex-row md:gap-16">
-        {/* Image gallery */}
-        <div className="md:w-[58%]">
-          <div className="relative aspect-[3/4] overflow-hidden border border-border-light bg-cream shadow-xs">
+  return (
+    <main className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 sm:pt-8">
+      <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-sm text-slate">
+        <Link href="/shop" className="hover:text-brand">
+          Shop
+        </Link>
+        <span aria-hidden>/</span>
+        <Link href={`/shop?category=${product.category}`} className="hover:text-brand">
+          {product.category}
+        </Link>
+        <span aria-hidden>/</span>
+        <span className="text-ink" aria-current="page">
+          {product.name}
+        </span>
+      </nav>
+
+      <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-10">
+        <div>
+          <div className="relative aspect-square overflow-hidden rounded-[1.75rem] bg-ice">
             <Image
               src={image}
               alt={product.name}
               fill
               priority
-              sizes="(min-width: 768px) 60vw, 100vw"
-              className="object-cover transition-all duration-500"
-              style={{ objectPosition: THUMBNAIL_FOCAL_POINTS[activeThumbnail] }}
+              sizes="(min-width: 1024px) 620px, 100vw"
+              className="object-cover transition-[object-position] duration-500 ease-[var(--ease-out)]"
+              style={{ objectPosition: FOCAL_POINTS[focal] }}
             />
           </div>
-
-          <div className="mt-4 grid grid-cols-4 gap-3">
-            {THUMBNAIL_FOCAL_POINTS.map((focalPoint, index) => (
+          <div className="mt-3 grid grid-cols-4 gap-3">
+            {FOCAL_POINTS.map((point, i) => (
               <button
-                key={focalPoint}
+                key={point}
                 type="button"
-                onClick={() => setActiveThumbnail(index)}
-                className={`active-tactile relative aspect-square overflow-hidden border bg-cream transition-colors ${
-                  activeThumbnail === index ? "border-off-black ring-1 ring-off-black" : "border-border-light hover:border-stone"
+                onClick={() => setFocal(i)}
+                aria-label={`View detail ${i + 1}`}
+                aria-pressed={focal === i}
+                className={`press relative aspect-square overflow-hidden rounded-2xl bg-ice ring-offset-2 ${
+                  focal === i ? "ring-2 ring-brand" : "opacity-80 hover:opacity-100"
                 }`}
               >
-                <Image
-                  src={image}
-                  alt=""
-                  fill
-                  sizes="120px"
-                  className="object-cover"
-                  style={{ objectPosition: focalPoint }}
-                />
+                <Image src={image} alt="" fill sizes="140px" className="object-cover" style={{ objectPosition: point }} />
               </button>
             ))}
           </div>
         </div>
 
-        {/* Product info */}
-        <div className="md:sticky md:top-28 md:h-fit md:w-[42%]">
-          <span className="mb-2 inline-block text-xs font-medium tracking-widest text-stone uppercase">
-            {product.category}
-          </span>
-          <h1 className="font-display text-3xl font-light text-off-black leading-tight md:text-4xl">
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          {off > 0 && (
+            <p className="inline-flex rounded-full bg-coral/15 px-3 py-1 text-[13px] font-semibold text-[oklch(52%_0.17_32.86)]">
+              {off}% off · save {cedis((product.originalPrice ?? 0) - product.price)}
+            </p>
+          )}
+          <h1 className="mt-3 font-display text-3xl leading-tight font-bold tracking-tight text-ink text-balance sm:text-4xl">
             {product.name}
           </h1>
-          <p className="mt-3 font-sans text-xl font-semibold text-off-black tracking-tight">
-            GH₵ {product.price.toLocaleString()}
+          <p className="mt-2 text-slate">{product.details}</p>
+
+          <p className="tabular mt-5 flex items-baseline gap-3">
+            {product.originalPrice && <span className="text-xl text-slate/70 line-through">{cedis(product.originalPrice)}</span>}
+            <span className="font-display text-4xl font-bold tracking-tight text-ink">{cedis(product.price)}</span>
           </p>
-
-          <div className="my-6 border-t border-border-dark" />
-
-          <p className="text-sm leading-relaxed text-stone">
-            {product.description}
+          <p className={`mt-2 text-sm font-semibold ${low ? "text-[oklch(55%_0.17_32.86)]" : "text-mint-deep"}`}>
+            {low ? `Only ${product.stockQuantity} left` : "In stock, ready to dispatch"}
           </p>
-
-          {/* Greater Accra Express Badge */}
-          <div className="mt-6 flex items-center gap-3 rounded-none border border-border-dark bg-cream p-3 text-xs text-stone">
-            <Truck size={20} className="text-bronze shrink-0" />
-            <div>
-              <span className="font-semibold text-off-black">Accra Express Available</span>
-              <p className="text-[11px]">Order before 2 PM for same-day delivery across Cantonments, Osu, East Legon & Airport Hills.</p>
-            </div>
-          </div>
 
           {product.sizes && (
-            <div className="mt-8">
-              <div className="flex justify-between items-baseline mb-3">
-                <p className="text-xs font-medium tracking-widest text-off-black uppercase">Select Size</p>
-                <span className="text-[11px] text-stone underline">Size Guide</span>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {product.sizes.map((size) => (
+            <fieldset className="mt-6">
+              <legend className="text-sm font-semibold text-ink">
+                Size <span className="font-normal text-slate">· {size}</span>
+              </legend>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {product.sizes.map((s) => (
                   <button
-                    key={size}
+                    key={s}
                     type="button"
-                    onClick={() => setSelectedSize(size)}
-                    className={`active-tactile h-11 w-11 text-xs font-medium transition-colors ${
-                      selectedSize === size
-                        ? "bg-off-black text-ecru"
-                        : "border border-border-dark text-off-black hover:border-off-black bg-cream/40"
+                    onClick={() => setSize(s)}
+                    aria-pressed={size === s}
+                    className={`press h-11 min-w-12 rounded-full border px-4 text-sm font-semibold ${
+                      size === s ? "border-brand bg-brand text-white" : "border-line bg-white text-ink hover:border-slate/50"
                     }`}
                   >
-                    {size}
+                    {s}
                   </button>
                 ))}
               </div>
-            </div>
+            </fieldset>
           )}
 
-          <div className="mt-8">
-            <p className="mb-3 text-xs font-medium tracking-widest text-off-black uppercase">Quantity</p>
-            <div className="flex items-center gap-4 text-off-black">
-              <div className="flex items-center border border-border-dark bg-cream px-3 py-2">
-                <button
-                  type="button"
-                  aria-label="Decrease quantity"
-                  onClick={() => setQuantity((value) => Math.max(1, value - 1))}
-                  className="active-tactile p-1 text-stone hover:text-off-black"
-                >
-                  <Minus size={14} />
-                </button>
-                <span className="w-8 text-center text-sm font-medium">{quantity}</span>
-                <button
-                  type="button"
-                  aria-label="Increase quantity"
-                  onClick={() => setQuantity((value) => value + 1)}
-                  className="active-tactile p-1 text-stone hover:text-off-black"
-                >
-                  <Plus size={14} />
-                </button>
-              </div>
-              {product.stockQuantity && (
-                <span className="text-xs text-stone">
-                  {product.stockQuantity < 10 ? `Only ${product.stockQuantity} left in stock` : "In Stock — Ready to ship"}
-                </span>
-              )}
+          <div className="mt-6 flex items-center gap-3">
+            <div className="flex h-[52px] items-center rounded-full border border-line bg-white px-1.5">
+              <button
+                type="button"
+                aria-label="Decrease quantity"
+                disabled={quantity <= 1}
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                className="press grid size-10 place-items-center rounded-full text-ink hover:bg-mist disabled:opacity-35"
+              >
+                <Minus size={16} weight="bold" />
+              </button>
+              <span className="tabular w-8 text-center font-semibold" aria-live="polite">
+                {quantity}
+              </span>
+              <button
+                type="button"
+                aria-label="Increase quantity"
+                disabled={quantity >= maxQty}
+                onClick={() => setQuantity((q) => Math.min(maxQty, q + 1))}
+                className="press grid size-10 place-items-center rounded-full text-ink hover:bg-mist disabled:opacity-35"
+              >
+                <Plus size={16} weight="bold" />
+              </button>
             </div>
+            <button
+              type="button"
+              onClick={handleAdd}
+              className="press flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full bg-brand font-semibold text-white hover:bg-brand-soft"
+            >
+              {added ? (
+                <>
+                  <Check size={18} weight="bold" className="text-mint" /> Added
+                </>
+              ) : (
+                <>Add to cart · {cedis(product.price * quantity)}</>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={() => toggle(product.slug)}
+              aria-label={liked ? "Remove from wishlist" : "Save to wishlist"}
+              aria-pressed={liked}
+              className="press grid size-[52px] shrink-0 place-items-center rounded-full border border-line bg-white text-brand hover:border-slate/50"
+            >
+              <Heart size={22} weight={liked ? "fill" : "regular"} className={liked ? "text-coral" : ""} />
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={handleAddToBag}
-            className="active-tactile mt-8 w-full bg-off-black py-4 text-xs font-medium tracking-widest text-ecru uppercase transition-colors hover:bg-stone"
+          <a
+            href={`https://wa.me/${WHATSAPP_BUSINESS_NUMBER}?text=${encodeURIComponent(askText)}`}
+            target="_blank"
+            rel="noreferrer"
+            className="press mt-3 flex h-[52px] items-center justify-center gap-2 rounded-full border border-mint bg-mint/10 font-semibold text-brand hover:bg-mint/20"
           >
-            Add to Bag — GH₵ {(product.price * quantity).toLocaleString()}
-          </button>
+            <WhatsappLogo size={20} weight="fill" className="text-mint-deep" />
+            Ask about this on WhatsApp
+          </a>
 
-          <button
-            type="button"
-            onClick={() => setIsLiked(!isLiked)}
-            className="active-tactile mt-4 flex items-center justify-center gap-2 w-full border border-border-dark py-3 text-xs tracking-widest text-off-black uppercase transition-colors hover:bg-cream"
-          >
-            <Heart size={16} weight={isLiked ? "fill" : "regular"} className={isLiked ? "text-bronze" : ""} />
-            {isLiked ? "Saved in Wishlist" : "Add to Wishlist"}
-          </button>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <InfoCard icon={<Truck size={18} weight="bold" />}>{product.delivery}</InfoCard>
+            <InfoCard icon={<ShieldCheck size={18} weight="bold" />}>
+              Pay on WhatsApp with MoMo, Telecel Cash, bank transfer or cash on delivery.
+            </InfoCard>
+          </div>
 
-          <div className="mt-8 border-t border-border-dark" />
-
-          {/* Accordion sections */}
-          <div className="mt-2 flex flex-col divide-y divide-border-dark">
-            {ACCORDIONS.map((section) => {
-              const isOpen = openAccordion === section;
-              return (
-                <div key={section} className="py-4">
-                  <button
-                    type="button"
-                    onClick={() => setOpenAccordion(isOpen ? null : section)}
-                    className="flex w-full items-center justify-between text-xs tracking-widest text-off-black uppercase font-medium"
-                  >
-                    {section}
-                    {isOpen ? <Minus size={14} /> : <Plus size={14} />}
-                  </button>
-
-                  {isOpen && (
-                    <p className="mt-3 text-xs leading-relaxed text-stone transition-opacity duration-300 ease-out">
-                      {section === "Description" && product.description}
-                      {section === "Details & Care" && product.details}
-                      {section === "Delivery & Returns" && product.delivery}
-                    </p>
-                  )}
-                </div>
-              );
-            })}
+          <div className="mt-5 rounded-[1.25rem] border border-line bg-white p-5">
+            <h2 className="font-display text-lg font-bold tracking-tight text-ink">Details</h2>
+            <p className="mt-2 leading-relaxed text-slate">{product.description}</p>
           </div>
         </div>
       </div>
@@ -215,3 +198,11 @@ export function ProductDetail({ product }: { product: Product }) {
   );
 }
 
+function InfoCard({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <div className="flex gap-3 rounded-[1.25rem] border border-line bg-white p-4 text-sm leading-snug text-slate">
+      <span className="mt-0.5 shrink-0 text-mint-deep">{icon}</span>
+      <p>{children}</p>
+    </div>
+  );
+}

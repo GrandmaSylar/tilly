@@ -1,78 +1,139 @@
 @import "tailwindcss";
 
-:root {
-  --color-off-black: #1c1917;
-  --color-ink: #292524;
-  --color-ecru: #faf8f5;
-  --color-cream: #f4efe6;
-  --color-stone: #78716c;
-  --color-border-dark: #e7e2d8;
-  --color-border-light: #f0ebe1;
-  --color-bronze: #a36b4f;
-}
+@theme {
+  --color-ink: oklch(17.7% 0.0323 258.68);
+  --color-brand: oklch(22.51% 0.051 255.57);
+  --color-brand-soft: oklch(28% 0.048 255.57);
+  --color-ice: oklch(95.58% 0.0154 257.2);
+  --color-mist: oklch(97.05% 0.0092 257.2);
+  --color-line: oklch(91.42% 0.0148 257.2);
+  --color-slate: oklch(51.78% 0.0316 257.4);
+  --color-mint: oklch(77.33% 0.1736 160.47);
+  --color-mint-deep: oklch(62% 0.15 160.47);
+  --color-gold: oklch(84.87% 0.1508 81.27);
+  --color-coral: oklch(70.57% 0.1877 32.86);
+  --color-danger: oklch(60% 0.222 25.5);
 
-@theme inline {
-  --color-off-black: var(--color-off-black);
-  --color-ink: var(--color-ink);
-  --color-ecru: var(--color-ecru);
-  --color-cream: var(--color-cream);
-  --color-stone: var(--color-stone);
-  --color-border-dark: var(--color-border-dark);
-  --color-border-light: var(--color-border-light);
-  --color-bronze: var(--color-bronze);
-  --font-display: var(--font-cormorant);
-  --font-body: var(--font-geist);
-  --animate-fade-in: fade-in 600ms ease forwards;
-  --animate-ticker: ticker 40s linear infinite;
-}
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --animate-ticker: ticker 38s linear infinite;
 }
 
 @keyframes ticker {
-  from {
-    transform: translateX(0);
-  }
   to {
     transform: translateX(-50%);
   }
 }
 
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(24px) rotate(0deg) scale(0.96);
+  }
+}
+
+@keyframes bump {
+  50% {
+    transform: scale(1.25);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--color-ecru);
-  color: var(--color-off-black);
-  font-family: var(--font-body), sans-serif;
+  background: #fff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom utility for subtle tactile micro-interactions */
-.active-tactile:active {
-  transform: scale(0.98);
-  transition: transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
+/* The soft ice wash with mint and coral glows that sits under every 100cedis page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40rem 30rem at 100% 0%, oklch(77.33% 0.1736 160.47 / 0.16), transparent 70%),
+    radial-gradient(34rem 28rem at 0% 55%, oklch(70.57% 0.1877 32.86 / 0.09), transparent 70%),
+    linear-gradient(180deg, oklch(97.05% 0.0092 257.2), #fff 60%);
 }
 
-/* Custom scrollbar styling for high-end luxury feel */
+::selection {
+  background: var(--color-mint);
+  color: var(--color-brand);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-mint);
+  outline-offset: 2px;
+}
+
+input,
+textarea,
+select {
+  caret-color: var(--color-mint-deep);
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-ecru);
+  background: var(--color-mist);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-dark);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-stone);
+  background: oklch(51.78% 0.0316 257.4 / 0.35);
+  border-radius: 999px;
+  border: 2px solid var(--color-mist);
 }
 
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Press feedback for anything tappable */
+@utility press {
+  transition-property: transform, background-color, color, border-color, opacity, box-shadow;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-out);
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.hero-card {
+  animation: settle 900ms var(--ease-out) both;
+}
+
+.bump {
+  animation: bump 320ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .hero-card,
+  .bump {
+    animation: none;
+  }
+  .animate-ticker {
+    animation-duration: 120s;
+  }
+}

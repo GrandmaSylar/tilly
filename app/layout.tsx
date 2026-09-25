@@ -1,26 +1,32 @@
-import type { Metadata } from "next";
-import { Cormorant_Garamond, Geist } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, Space_Grotesk } from "next/font/google";
 import { CartProvider } from "@/context/CartContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 import { CartDrawer } from "@/components/CartDrawer";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import "./globals.css";
 
-const cormorantGaramond = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
-  weight: ["300", "400"],
+  weight: ["500", "600", "700"],
 });
 
-const geist = Geist({
-  variable: "--font-geist",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Tilly's Gallery — Ghana's Premier Luxury Maison",
+  title: "Tilly's Gallery — Perfumes, Bags, Clothing & Beauty in Accra",
   description:
-    "An edit of fine perfumes, leather craft, tailored silhouettes, and high beauty — crafted with intention for Accra & beyond.",
+    "Perfumes, leather bags, tailored clothing, gold accessories and botanical beauty. Same-day delivery in Greater Accra, 48 hours across Ghana.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0b1b33",
 };
 
 export default function RootLayout({
@@ -30,21 +36,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${cormorantGaramond.variable} ${geist.variable} bg-ecru text-off-black antialiased`}
-      >
+      <body className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}>
         <CartProvider>
-          {/* Ghana Market Top Announcement Bar */}
-          <div className="bg-off-black py-2 px-4 text-center text-[11px] uppercase tracking-widest text-ecru font-light">
-            <span>Express Delivery Across Accra & Greater Ghana</span>
-            <span className="mx-3 opacity-40">|</span>
-            <span className="hidden sm:inline">Complimentary Gift Packaging with Every Order</span>
-          </div>
-
-          <Navbar />
-          {children}
-          <Footer />
-          <CartDrawer />
+          <WishlistProvider>
+            <div className="bg-brand text-white">
+              <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6">
+                <p className="font-display text-[11px] font-bold uppercase tracking-[0.08em]">
+                  Same-day delivery across Greater Accra
+                </p>
+                <p className="hidden text-[11px] font-semibold uppercase tracking-[0.06em] text-mint sm:block">
+                  48 hours anywhere in Ghana
+                </p>
+              </div>
+            </div>
+            <Navbar />
+            {children}
+            <Footer />
+            <CartDrawer />
+            <WhatsAppFloat />
+          </WishlistProvider>
         </CartProvider>
       </body>
     </html>

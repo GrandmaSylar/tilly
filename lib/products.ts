@@ -3,6 +3,8 @@ export type Product = {
   name: string;
   category: "Perfumes" | "Bags" | "Clothing" | "Accessories" | "Beauty";
   price: number;
+  originalPrice?: number;
+  discountTag?: string;
   description: string;
   details: string;
   delivery: string;
@@ -18,6 +20,8 @@ export const products: Product[] = [
     name: "Labadi Coast Eau de Parfum",
     category: "Perfumes",
     price: 1850,
+    originalPrice: 2100,
+    discountTag: "-GH₵ 250",
     description:
       "A smoked amber and coastal vetiver composition layered with dark resin and Ghanaian cedarwood. Understated, evocative, and exceptionally long-wearing.",
     details: "100ml. Extrait de Parfum, 22% concentration. Hand-blended in Grasse & Accra.",
@@ -56,11 +60,14 @@ export const products: Product[] = [
     name: "Kente-Weave Silk Charmeuse Shirt",
     category: "Clothing",
     price: 2450,
+    originalPrice: 2800,
+    discountTag: "-GH₵ 350",
     description:
       "Liquid Mulberry silk featuring a subtle jacquard geometric weave inspired by heritage West African patterns. Drapes effortlessly for warm tropical evenings.",
     details: "100% Mulberry silk charmeuse. Concealed mother-of-pearl placket. Dry clean only.",
     delivery: "Same-day dispatch in Accra. 48-hour delivery nationwide.",
     sizes: ["XS", "S", "M", "L"],
+    isFeatured: true,
     isBestseller: true,
     stockQuantity: 11,
   },
@@ -70,10 +77,11 @@ export const products: Product[] = [
     category: "Clothing",
     price: 2800,
     description:
-      "Ultralight 2-ply cashmere knit to a soft, relaxed drape. Designed for air-conditioned spaces, travel, and cool harmattan evenings.",
-    details: "100% Grade-A Mongolian cashmere. Hand wash cold with cashmere wash.",
-    delivery: "Express delivery in Greater Accra & nationwide Ghana delivery.",
-    sizes: ["XS", "S", "M", "L", "XL"],
+      "Ultra-fine 16-gauge Grade-A Mongolian cashmere with ribbed trims and a relaxed contemporary cut. Temperature-regulating for air-conditioned evenings.",
+    details: "100% Grade-A Mongolian Cashmere. Hand wash cold or dry clean.",
+    delivery: "Express 24-hour delivery in Greater Accra.",
+    sizes: ["S", "M", "L", "XL"],
+    isFeatured: true,
     stockQuantity: 9,
   },
   {
@@ -82,34 +90,11 @@ export const products: Product[] = [
     category: "Accessories",
     price: 1250,
     description:
-      "A sculpted continuous hoop cast in 18k recycled gold vermeil over sterling silver. A quiet statement piece worn alone or paired.",
-    details: "18k gold vermeil over 925 sterling silver. Hypoallergenic post closure.",
-    delivery: "Delivered in signature velvet luxury pouch. Same-day delivery in Accra.",
+      "18k gold vermeil over recycled sterling silver with a subtle sculpted ridge design. Lightweight hollow core designed for all-day comfort.",
+    details: "18k Gold Vermeil (2.5 microns) over 925 Sterling Silver. Hinge closure.",
+    delivery: "Same-day express delivery in Greater Accra in signature box.",
     isBestseller: true,
     stockQuantity: 22,
-  },
-  {
-    slug: "fine-leather-belt",
-    name: "Fine Calfskin Waist Belt",
-    category: "Accessories",
-    price: 850,
-    description:
-      "Narrow hand-burnished calfskin belt with a custom hand-brushed brass buckle. Designed to define waistlines with subtlety.",
-    details: "Hand-burnished Italian calfskin, solid brass hardware. Made in Italy.",
-    delivery: "Ships within 24 hours. Complimentary returns within 14 days.",
-    sizes: ["S", "M", "L"],
-    stockQuantity: 15,
-  },
-  {
-    slug: "cashmere-travel-scarf",
-    name: "Volta Hand-Woven Scarf",
-    category: "Accessories",
-    price: 1150,
-    description:
-      "An oversized cashmere and raw silk wrap woven in soft earthy sand tones. Versatile over evening tailoring or international travel.",
-    details: "70% cashmere, 30% hand-spun silk. Dry clean only.",
-    delivery: "Same-day express delivery in Accra.",
-    stockQuantity: 6,
   },
   {
     slug: "vetiver-hand-balm",
@@ -117,11 +102,11 @@ export const products: Product[] = [
     category: "Beauty",
     price: 420,
     description:
-      "A dense, fast-absorbing botanical balm enriched with raw unrefined Ghanaian shea butter, baobab oil, and smoked vetiver.",
-    details: "75ml. Wild-harvested shea butter, cold-pressed baobab, vitamin E, vetiver.",
-    delivery: "Same-day express delivery in Greater Accra & Airport Residential pickup.",
-    isBestseller: true,
-    stockQuantity: 35,
+      "Nourishing botanical hand cream enriched with raw unrefined shea butter, baobab oil, and wild Haitian vetiver. Restores moisture immediately.",
+    details: "75ml aluminum tube. Organic West African Shea Butter & Cold-Pressed Baobab.",
+    delivery: "Express delivery across Greater Accra & Ghana nationwide.",
+    isFeatured: true,
+    stockQuantity: 34,
   },
   {
     slug: "matte-silk-lip-oil",
@@ -129,22 +114,25 @@ export const products: Product[] = [
     category: "Beauty",
     price: 480,
     description:
-      "A weightless nourishing lip oil infused with West African marula oil that sets into a luminous, low-shine finish.",
-    details: "10ml. Cold-pressed marula oil, organic jojoba, vitamin E.",
-    delivery: "Delivered in signature luxury pouch across Ghana.",
-    stockQuantity: 40,
+      "Non-sticky tinted botanical lip treatment with SPF 15 and jojoba seed oil. Leaves a subtle rosy sheen and continuous hydration.",
+    details: "8ml glass vial with plush applicator. Organic jojoba, vitamin E, marula oil.",
+    delivery: "Same-day delivery in Accra.",
+    isBestseller: true,
+    stockQuantity: 45,
   },
   {
     slug: "quilted-crossbody",
     name: "Nima Quilted Evening Crossbody",
     category: "Bags",
     price: 3900,
+    originalPrice: 4300,
+    discountTag: "-GH₵ 400",
     description:
-      "Supple lambskin leather intricately quilted with a fine brass chain strap. Designed for seamless transition from day to evening.",
-    details: "Italian lambskin leather, antique brass hardware. Interior card slot.",
-    delivery: "Complimentary white-glove express delivery across Accra & Kumasi.",
+      "Butter-soft nappa leather in a geometric quilt pattern with a convertible gold curb chain strap. Fits phone, cards, key, and lip balm seamlessly.",
+    details: "Nappa leather, magnetic flap lock, gold-tone chain. Interior zip pocket.",
+    delivery: "Express 24-hour delivery across Greater Accra.",
     isFeatured: true,
-    stockQuantity: 5,
+    stockQuantity: 6,
   },
   {
     slug: "tailored-wool-coat",
@@ -152,11 +140,12 @@ export const products: Product[] = [
     category: "Clothing",
     price: 4950,
     description:
-      "A single-breasted coat in double-faced wool and silk, cut long with unlined lightness. Designed for refined international travel.",
-    details: "85% virgin wool, 15% Mulberry silk. Dry clean only. Made in Portugal.",
-    delivery: "Insured express courier delivery across Ghana & worldwide DHL Express.",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    stockQuantity: 4,
+      "Unstructured double-faced virgin wool coat with relaxed lapels and hand-stitched seams. Statement outerwear for international travel and crisp highland evenings.",
+    details: "100% Virgin Wool. Unlined double-faced construction. Horn buttons.",
+    delivery: "Complimentary courier delivery across Ghana.",
+    sizes: ["S", "M", "L"],
+    isFeatured: true,
+    stockQuantity: 5,
   },
 ];
 
@@ -164,11 +153,44 @@ export function getProductBySlug(slug: string) {
   return products.find((product) => product.slug === slug);
 }
 
+const PRODUCT_IMAGE_MAP: Record<string, string> = {
+  "ambre-noir-eau-de-parfum": "/images/product-ambre-noir-eau-de-parfum.jpg",
+  "structured-leather-tote": "/images/product-structured-leather-tote.jpg",
+  "wool-wide-leg-trouser": "/images/product-wool-wide-leg-trouser.jpg",
+  "silk-charmeuse-shirt": "/images/product-silk-charmeuse-shirt.jpg",
+  "cashmere-crewneck": "/images/product-cashmere-crewneck.jpg",
+  "minimal-gold-hoop": "/images/product-minimal-gold-hoop.jpg",
+  "vetiver-hand-balm": "/images/product-vetiver-hand-balm.jpg",
+  "matte-silk-lip-oil": "/images/product-matte-silk-lip-oil.jpg",
+  "quilted-crossbody": "/images/product-quilted-crossbody.jpg",
+  "tailored-wool-coat": "/images/product-tailored-wool-coat.jpg",
+};
+
 export function productImageSrc(slug: string) {
-  return `/images/product-${slug}.jpg`;
+  return PRODUCT_IMAGE_MAP[slug] || "/images/product-ambre-noir-eau-de-parfum.jpg";
 }
+
+export type Category = Product["category"];
+
+export const CATEGORIES: { name: Category; blurb: string; image: string }[] = [
+  { name: "Perfumes", blurb: "Extraits and eaux de parfum", image: "/images/category-perfumes.jpg" },
+  { name: "Bags", blurb: "Totes and evening crossbodies", image: "/images/category-bags.jpg" },
+  { name: "Clothing", blurb: "Linen, silk, cashmere and wool", image: "/images/category-clothing.jpg" },
+  { name: "Accessories", blurb: "Gold vermeil and fine leather", image: "/images/category-accessories.jpg" },
+  { name: "Beauty", blurb: "Shea balms and lip oils", image: "/images/category-beauty.jpg" },
+];
+
+export const PRICE_TIERS = [
+  { max: 500, tone: "brand" },
+  { max: 1000, tone: "mint" },
+  { max: 2500, tone: "gold" },
+  { max: 5000, tone: "coral" },
+] as const;
 
 export function categoryImageSrc(category: string) {
-  return `/images/category-${category.toLowerCase()}.jpg`;
+  return CATEGORIES.find((c) => c.name.toLowerCase() === category.toLowerCase())?.image ?? "/images/category-perfumes.jpg";
 }
 
+export function isLowStock(product: Product) {
+  return product.stockQuantity !== undefined && product.stockQuantity < 10;
+}
