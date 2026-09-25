@@ -14,7 +14,7 @@ export function Hero({ lead, second, from }: { lead: Product; second: Product; f
     <section className="relative overflow-hidden">
       <Container className="grid items-center gap-8 pt-8 pb-10 sm:gap-10 sm:pt-16 sm:pb-14 lg:grid-cols-[1.1fr_1fr] lg:pt-20 lg:pb-20">
         <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-[11px] font-semibold sm:px-3.5 sm:text-xs text-brand uppercase shadow-[0_2px_8px_-4px_oklch(22.51%_0.051_255.57/0.2)]">
+          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-[11px] font-semibold sm:px-3.5 sm:text-xs text-brand uppercase shadow-[0_2px_8px_-4px_oklch(30%_0.03_45/0.2)]">
             <span className="size-2 rounded-full bg-mint" />
             Order by 2 PM, wear it tonight
           </p>
@@ -23,7 +23,7 @@ export function Hero({ lead, second, from }: { lead: Product; second: Product; f
             <br />
             &amp; silk in Accra,
             <br />
-            <span className="text-mint">by tonight.</span>
+            <span className="text-mint-deep">by tonight.</span>
           </h1>
           <p className="mt-5 max-w-[46ch] text-base leading-relaxed text-slate sm:mt-6 sm:text-lg">
             Extraits de parfum, full-grain leather, linen and silk, chosen in Accra and delivered to your door the same day.
@@ -50,13 +50,13 @@ export function Hero({ lead, second, from }: { lead: Product; second: Product; f
 
         {/* Floating product cards */}
         <div className="relative mx-auto h-[300px] w-full max-w-[560px] min-[400px]:h-[340px] sm:h-[440px]" aria-hidden>
-          <div className="absolute inset-[10%] rounded-full bg-mint/25 blur-3xl" />
+          <div className="absolute inset-[10%] rounded-full bg-mint/30 blur-3xl" />
 
           <HeroCard product={lead} className="top-[2%] left-0 w-[50%] [--r:-5deg] sm:left-[3%] sm:w-[45%]" delay={80}>
             <div className="flex items-start justify-between gap-2">
               <p className="line-clamp-1 text-xs leading-tight font-semibold text-ink sm:line-clamp-2 sm:text-[13px]">{lead.name}</p>
               {off > 0 && (
-                <span className="shrink-0 rounded bg-mint px-1.5 py-0.5 text-[9px] font-bold text-brand uppercase">{off}% off</span>
+                <span className="shrink-0 rounded bg-mint px-1.5 py-0.5 text-[9px] font-bold text-ink uppercase">{off}% off</span>
               )}
             </div>
             <p className="mt-1 flex items-baseline gap-2">
@@ -68,23 +68,23 @@ export function Hero({ lead, second, from }: { lead: Product; second: Product; f
           <HeroCard product={second} className="right-0 bottom-[2%] w-[47%] [--r:4deg] sm:right-[2%] sm:w-[42%]" delay={200}>
             <div className="flex items-start justify-between gap-2">
               <p className="line-clamp-1 text-xs leading-tight font-semibold text-ink sm:line-clamp-2 sm:text-[13px]">{second.name}</p>
-              <span className="shrink-0 rounded bg-gold px-1.5 py-0.5 text-[9px] font-bold text-brand uppercase">New</span>
+              <span className="shrink-0 rounded bg-gold px-1.5 py-0.5 text-[9px] font-bold text-ink uppercase">New</span>
             </div>
             <p className="mt-1 font-display text-base font-bold text-ink sm:text-lg">{cedis(second.price)}</p>
           </HeroCard>
 
           <div
-            className="hero-card absolute top-[3%] right-[8%] grid size-[24%] min-w-[88px] place-items-center rounded-full bg-brand text-center shadow-[0_20px_40px_-12px_oklch(22.51%_0.051_255.57/0.55)] [transform:rotate(var(--r))] [--r:0deg]"
+            className="hero-card absolute top-[3%] right-[8%] grid size-[24%] min-w-[88px] place-items-center rounded-full bg-brand text-center shadow-[0_20px_40px_-12px_oklch(30%_0.03_45/0.55)] [transform:rotate(var(--r))] [--r:0deg]"
             style={{ animationDelay: "320ms" }}
           >
             <div>
-              <p className="text-[9px] font-bold tracking-[0.18em] text-mint uppercase">From</p>
+              <p className="text-[9px] font-bold tracking-[0.18em] text-sand uppercase">From</p>
               <p className="font-display text-lg leading-none font-bold text-white sm:text-2xl">{cedis(from)}</p>
             </div>
           </div>
 
           <div
-            className="hero-card absolute bottom-[4%] left-[4%] w-[40%] rounded-2xl bg-coral p-3 sm:left-[10%] sm:w-[34%] sm:p-3.5 text-white shadow-[0_18px_36px_-14px_oklch(70.57%_0.1877_32.86/0.7)] [transform:rotate(var(--r))] [--r:-3deg] sm:p-4"
+            className="hero-card absolute bottom-[4%] left-[4%] w-[40%] rounded-2xl bg-coral p-3 sm:left-[10%] sm:w-[34%] sm:p-3.5 text-white shadow-[0_18px_36px_-14px_oklch(48%_0.1_40/0.55)] [transform:rotate(var(--r))] [--r:-3deg] sm:p-4"
             style={{ animationDelay: "440ms" }}
           >
             <p className="text-[9px] font-bold tracking-wide uppercase opacity-90">Greater Accra</p>
@@ -109,7 +109,7 @@ function HeroCard({
 }) {
   return (
     <div
-      className={`hero-card absolute rounded-2xl bg-white p-2 sm:rounded-[1.25rem] sm:p-2.5 shadow-[0_24px_48px_-20px_oklch(22.51%_0.051_255.57/0.4)] [transform:rotate(var(--r))] ${className}`}
+      className={`hero-card absolute rounded-2xl bg-white p-2 sm:rounded-[1.25rem] sm:p-2.5 shadow-[0_24px_48px_-20px_oklch(30%_0.03_45/0.4)] [transform:rotate(var(--r))] ${className}`}
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="relative aspect-[4/3.4] overflow-hidden rounded-xl bg-ice">
@@ -132,7 +132,7 @@ export function Ticker() {
         {items.map((item, i) => (
           <span key={i} className="flex items-center font-display text-[13px] font-bold tracking-[0.06em] whitespace-nowrap uppercase sm:text-sm">
             <span className="px-6 sm:px-9">{item}</span>
-            <span className="size-2 rotate-45 bg-mint" />
+            <span className="size-2 rotate-45 bg-sand" />
           </span>
         ))}
       </div>
@@ -143,9 +143,9 @@ export function Ticker() {
 /* ─── Shop by price ─────────────────────────────────────────────────────── */
 
 const TONES = {
-  brand: "bg-brand text-white [--sub:var(--color-mint)] [--ghost:oklch(100%_0_0/0.08)]",
-  mint: "bg-mint text-brand [--sub:var(--color-brand)] [--ghost:oklch(100%_0_0/0.3)]",
-  gold: "bg-gold text-brand [--sub:var(--color-brand)] [--ghost:oklch(100%_0_0/0.35)]",
+  brand: "bg-brand text-white [--sub:var(--color-sand)] [--ghost:oklch(100%_0_0/0.1)]",
+  mint: "bg-mint text-ink [--sub:var(--color-ink)] [--ghost:oklch(100%_0_0/0.28)]",
+  gold: "bg-gold text-ink [--sub:var(--color-brand)] [--ghost:oklch(100%_0_0/0.5)]",
   coral: "bg-coral text-white [--sub:oklch(100%_0_0)] [--ghost:oklch(100%_0_0/0.18)]",
 } as const;
 
@@ -159,7 +159,7 @@ export function PriceTiles() {
             <Link
               key={tier.max}
               href={`/shop?price=${tier.max}`}
-              className={`press group relative h-[5.5rem] overflow-hidden rounded-2xl p-3.5 min-[400px]:h-24 min-[400px]:p-4 sm:h-28 sm:p-5 ${TONES[tier.tone]} [@media(hover:hover)]:hover:-translate-y-0.5 [@media(hover:hover)]:hover:shadow-[0_16px_30px_-16px_oklch(22.51%_0.051_255.57/0.5)]`}
+              className={`press group relative h-[5.5rem] overflow-hidden rounded-2xl p-3.5 min-[400px]:h-24 min-[400px]:p-4 sm:h-28 sm:p-5 ${TONES[tier.tone]} [@media(hover:hover)]:hover:-translate-y-0.5 [@media(hover:hover)]:hover:shadow-[0_16px_30px_-16px_oklch(30%_0.03_45/0.5)]`}
             >
               <p className="font-display text-[clamp(1.05rem,0.7rem+1.6vw,1.5rem)] leading-none font-bold tracking-tight">{cedis(tier.max)}</p>
               <p className="mt-1.5 text-xs font-semibold tracking-wide text-[var(--sub)] uppercase">&amp; below</p>
@@ -181,16 +181,16 @@ export function DealsPanel({ deals }: { deals: Product[] }) {
     <section className="mt-10 sm:mt-14">
       <Container>
         <div className="relative overflow-hidden rounded-[1.75rem] bg-brand px-4 py-7 sm:rounded-[2rem] sm:p-10">
-          <div className="pointer-events-none absolute -top-40 -right-24 size-[34rem] rounded-full bg-[radial-gradient(closest-side,oklch(77.33%_0.1736_160.47/0.28),transparent)]" />
+          <div className="pointer-events-none absolute -top-40 -right-24 size-[34rem] rounded-full bg-[radial-gradient(closest-side,oklch(76%_0.035_55/0.28),transparent)]" />
           <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="font-display text-[clamp(1.5rem,1rem+2.6vw,2.25rem)] leading-[1.05] font-bold tracking-tight text-white uppercase">
               The same pieces.
               <br />
-              <span className="text-mint">Marked down.</span>
+              <span className="text-sand">Marked down.</span>
             </h2>
             <Link
               href="/shop?sale=1"
-              className="press inline-flex h-12 w-fit items-center rounded-full bg-white px-6 text-sm font-semibold text-brand uppercase hover:bg-ice sm:text-base"
+              className="press inline-flex h-12 w-fit items-center rounded-full bg-cream px-6 text-sm font-semibold text-brand uppercase hover:bg-white sm:text-base"
             >
               Shop all deals
             </Link>
@@ -204,7 +204,7 @@ export function DealsPanel({ deals }: { deals: Product[] }) {
               >
                 <div className="flex items-center justify-between gap-2 text-sm text-white/70">
                   <span className="truncate">{p.category}</span>
-                  <span className="shrink-0 rounded bg-mint px-1.5 py-0.5 text-[11px] font-bold whitespace-nowrap text-brand uppercase">
+                  <span className="shrink-0 rounded bg-mint px-1.5 py-0.5 text-[11px] font-bold whitespace-nowrap text-ink uppercase">
                     Save {cedis((p.originalPrice ?? p.price) - p.price)}
                   </span>
                 </div>
@@ -220,7 +220,7 @@ export function DealsPanel({ deals }: { deals: Product[] }) {
                 <p className="mt-4 font-semibold text-white">{p.name}</p>
                 <p className="tabular mt-1 flex items-baseline gap-2">
                   <span className="text-sm text-white/50 line-through">{cedis(p.originalPrice ?? p.price)}</span>
-                  <span className="font-display text-2xl font-bold text-mint">{cedis(p.price)}</span>
+                  <span className="font-display text-2xl font-bold text-sand">{cedis(p.price)}</span>
                 </p>
               </Link>
             ))}

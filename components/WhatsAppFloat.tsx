@@ -34,7 +34,7 @@ export function WhatsAppFloat() {
       target="_blank"
       rel="noreferrer"
       aria-label="Chat with Tilly's Gallery on WhatsApp"
-      className={`press fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-30 grid size-13 place-items-center rounded-full bg-mint text-brand shadow-[0_12px_28px_-8px_oklch(62%_0.15_160.47/0.7)] transition-[transform,opacity] duration-300 ease-[var(--ease-out)] sm:right-6 sm:bottom-6 sm:size-14 ${
+      className={`press fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-30 grid size-13 place-items-center rounded-full bg-mint text-ink shadow-[0_12px_28px_-8px_oklch(45%_0.04_50/0.55)] transition-[transform,opacity] duration-300 ease-[var(--ease-out)] sm:right-6 sm:bottom-6 sm:size-14 ${
         hidden ? "max-sm:pointer-events-none max-sm:translate-y-24 max-sm:opacity-0" : ""
       }`}
     >

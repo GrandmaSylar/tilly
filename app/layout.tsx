@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b1b33",
+  themeColor: "#6e564c",
   viewportFit: "cover",
 };
 
@@ -45,7 +45,7 @@ export default function RootLayout({
                 <p className="font-display text-xs font-bold tracking-[0.06em] uppercase">
                   Same-day delivery across Greater Accra
                 </p>
-                <p className="hidden text-[11px] font-semibold uppercase tracking-[0.06em] text-mint sm:block">
+                <p className="hidden text-[11px] font-semibold uppercase tracking-[0.06em] text-sand sm:block">
                   48 hours anywhere in Ghana
                 </p>
               </div>

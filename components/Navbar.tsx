@@ -60,14 +60,14 @@ export function Navbar() {
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search perfumes, bags, linen…"
         aria-label="Search products"
-        className="h-11 w-full rounded-full border border-line bg-mist pr-4 pl-10 text-base text-ink md:text-sm placeholder:text-slate transition-colors focus:border-mint focus:bg-white focus:outline-none"
+        className="h-11 w-full rounded-full border border-line bg-mist pr-4 pl-10 text-base text-ink md:text-sm placeholder:text-slate transition-colors focus:border-brand focus:bg-white focus:outline-none"
       />
     </form>
   );
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-line bg-white/85 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-line bg-cream/90 backdrop-blur-md">
         <div className="mx-auto flex h-[60px] max-w-7xl items-center gap-6 px-4 sm:h-[70px] sm:px-6">
           <Link href="/" className="press shrink-0" aria-label="Tilly's Gallery home">
             <Image src="/logo.png" alt="Tilly's Gallery" width={624} height={414} priority className="h-11 w-auto sm:h-[54px]" />
@@ -140,7 +140,7 @@ export function Navbar() {
         aria-label="Menu"
         aria-hidden={!isMenuOpen}
         inert={!isMenuOpen}
-        className={`fixed inset-y-0 right-0 z-50 flex w-[88%] max-w-sm flex-col bg-white shadow-[-24px_0_48px_-24px_oklch(22.51%_0.051_255.57/0.35)] transition-transform duration-[420ms] ease-[var(--ease-drawer)] xl:hidden ${
+        className={`fixed inset-y-0 right-0 z-50 flex w-[88%] max-w-sm flex-col bg-cream shadow-[-24px_0_48px_-24px_oklch(30%_0.03_45/0.35)] transition-transform duration-[420ms] ease-[var(--ease-drawer)] xl:hidden ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -177,7 +177,7 @@ export function Navbar() {
             rel="noreferrer"
             className="press flex h-12 items-center justify-center gap-2 rounded-full bg-brand font-semibold text-white"
           >
-            <WhatsappLogo size={20} weight="fill" className="text-mint" />
+            <WhatsappLogo size={20} weight="fill" className="text-sand" />
             Chat with our concierge
           </a>
           <p className="mt-3 text-center text-xs text-slate">Airport Residential Area, Accra</p>
@@ -190,7 +190,7 @@ export function Navbar() {
 function CountBadge({ value, bump }: { value: number; bump?: boolean }) {
   return (
     <span
-      className={`tabular absolute -top-0.5 -right-0.5 grid min-w-[18px] place-items-center rounded-full bg-mint px-1 text-[10px] leading-[18px] font-bold text-brand ${
+      className={`tabular absolute -top-0.5 -right-0.5 grid min-w-[18px] place-items-center rounded-full bg-mint px-1 text-[10px] leading-[18px] font-bold text-ink ${
         bump ? "bump" : ""
       }`}
     >

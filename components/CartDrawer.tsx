@@ -37,7 +37,7 @@ export function CartDrawer() {
         aria-modal="true"
         aria-label="Cart"
         inert={!isOpen}
-        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-white shadow-[-24px_0_48px_-24px_oklch(22.51%_0.051_255.57/0.35)] transition-transform duration-[420ms] ease-[var(--ease-drawer)] sm:inset-y-3 sm:right-3 sm:rounded-[1.75rem] ${
+        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-white shadow-[-24px_0_48px_-24px_oklch(30%_0.03_45/0.35)] transition-transform duration-[420ms] ease-[var(--ease-drawer)] sm:inset-y-3 sm:right-3 sm:rounded-[1.75rem] ${
           isOpen ? "translate-x-0" : "translate-x-[calc(100%+1rem)]"
         }`}
       >
@@ -55,7 +55,7 @@ export function CartDrawer() {
           </button>
         </div>
 
-        <p className="mx-5 rounded-xl bg-mint/15 px-4 py-2.5 text-[15px] text-brand sm:text-sm">
+        <p className="mx-5 rounded-xl bg-mint/25 px-4 py-2.5 text-[15px] text-ink sm:text-sm">
           <span className="font-semibold">Free same-day delivery</span> across Greater Accra.
         </p>
 
@@ -147,7 +147,7 @@ export function CartDrawer() {
                 closeCart();
                 setIsCheckoutOpen(true);
               }}
-              className="press mt-4 flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-mint font-semibold text-brand hover:brightness-105"
+              className="press mt-4 flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-mint font-semibold text-ink hover:brightness-105"
             >
               <WhatsappLogo size={20} weight="fill" />
               Check out on WhatsApp

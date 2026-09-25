@@ -68,7 +68,7 @@ export function WhatsAppCheckoutModal({ isOpen, onClose }: { isOpen: boolean; on
         role="dialog"
         aria-modal="true"
         aria-labelledby="checkout-title"
-        className="relative mt-auto w-full max-w-lg rounded-t-[1.75rem] bg-white px-5 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-[0_32px_64px_-24px_oklch(22.51%_0.051_255.57/0.5)] transition-[opacity,transform] duration-[260ms] ease-[var(--ease-out)] starting:translate-y-4 starting:opacity-0 sm:my-auto sm:rounded-[1.75rem] sm:p-7 sm:starting:translate-y-0 sm:starting:scale-[0.96]"
+        className="relative mt-auto w-full max-w-lg rounded-t-[1.75rem] bg-white px-5 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-[0_32px_64px_-24px_oklch(30%_0.03_45/0.5)] transition-[opacity,transform] duration-[260ms] ease-[var(--ease-out)] starting:translate-y-4 starting:opacity-0 sm:my-auto sm:rounded-[1.75rem] sm:p-7 sm:starting:translate-y-0 sm:starting:scale-[0.96]"
       >
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -159,7 +159,7 @@ export function WhatsAppCheckoutModal({ isOpen, onClose }: { isOpen: boolean; on
               placeholder="Gift wrap it, deliver after 3 PM…"
               value={formData.notes}
               onChange={(e) => set("notes", e.target.value)}
-              className="w-full resize-none rounded-2xl border border-line bg-mist px-4 py-3 text-ink placeholder:text-slate/80 focus:border-mint focus:bg-white focus:outline-none"
+              className="w-full resize-none rounded-2xl border border-line bg-mist px-4 py-3 text-ink placeholder:text-slate/80 focus:border-brand focus:bg-white focus:outline-none"
             />
           </Field>
 
@@ -172,7 +172,7 @@ export function WhatsAppCheckoutModal({ isOpen, onClose }: { isOpen: boolean; on
 
           <button
             type="submit"
-            className="press flex h-[52px] items-center justify-center gap-2 rounded-full bg-mint font-semibold text-brand hover:brightness-105"
+            className="press flex h-[52px] items-center justify-center gap-2 rounded-full bg-mint font-semibold text-ink hover:brightness-105"
           >
             <WhatsappLogo size={20} weight="fill" />
             Send order on WhatsApp
@@ -188,7 +188,7 @@ export function WhatsAppCheckoutModal({ isOpen, onClose }: { isOpen: boolean; on
 
 function inputClass(invalid: boolean) {
   return `h-12 w-full rounded-full border bg-mist px-5 text-ink placeholder:text-slate/80 focus:bg-white focus:outline-none ${
-    invalid ? "border-danger focus:border-danger" : "border-line focus:border-mint"
+    invalid ? "border-danger focus:border-danger" : "border-line focus:border-brand"
   }`;
 }
 

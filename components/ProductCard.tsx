@@ -28,7 +28,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
   }
 
   return (
-    <article className="group relative flex flex-col rounded-[1.25rem] border border-line bg-white p-2 transition-shadow duration-300 sm:p-3 [@media(hover:hover)]:hover:shadow-[0_18px_40px_-22px_oklch(22.51%_0.051_255.57/0.35)]">
+    <article className="group relative flex flex-col rounded-[1.25rem] border border-line bg-white p-2 transition-shadow duration-300 sm:p-3 [@media(hover:hover)]:hover:shadow-[0_18px_40px_-22px_oklch(30%_0.03_45/0.35)]">
       <div className="relative aspect-square overflow-hidden rounded-[0.9rem] bg-ice sm:rounded-2xl">
         <Image
           src={image}
@@ -38,8 +38,8 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           sizes="(min-width: 1280px) 290px, (min-width: 1024px) 23vw, (min-width: 768px) 31vw, 50vw"
           className="object-cover transition-transform duration-700 ease-[var(--ease-out)] [@media(hover:hover)]:group-hover:scale-[1.04]"
         />
-        {off > 0 && <Badge className="top-2 left-2 bg-mint text-brand">{off}% off</Badge>}
-        {!off && product.isBestseller && <Badge className="top-2 left-2 bg-gold text-brand">Bestseller</Badge>}
+        {off > 0 && <Badge className="top-2 left-2 bg-mint text-ink">{off}% off</Badge>}
+        {!off && product.isBestseller && <Badge className="top-2 left-2 bg-gold text-ink">Bestseller</Badge>}
         {isLowStock(product) && (
           <Badge className="bottom-2 left-2 bg-coral text-white">Only {product.stockQuantity} left</Badge>
         )}

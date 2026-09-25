@@ -77,7 +77,7 @@ export function ShopView() {
             onBlur={(e) => e.currentTarget.value.trim() !== search && update({ search: e.currentTarget.value.trim() })}
             placeholder="Search products or materials"
             aria-label="Search products"
-            className="h-12 w-full rounded-full border border-line bg-white pr-5 pl-12 text-ink placeholder:text-slate focus:border-mint focus:outline-none"
+            className="h-12 w-full rounded-full border border-line bg-white pr-5 pl-12 text-ink placeholder:text-slate focus:border-brand focus:outline-none"
           />
         </div>
 
@@ -122,7 +122,7 @@ export function ShopView() {
             <select
               value={sort}
               onChange={(e) => update({ sort: e.target.value === "newest" ? null : e.target.value })}
-              className="h-11 w-full cursor-pointer appearance-none rounded-full border border-line bg-white pr-10 pl-4 text-base text-ink sm:w-auto sm:text-sm focus:border-mint focus:outline-none"
+              className="h-11 w-full cursor-pointer appearance-none rounded-full border border-line bg-white pr-10 pl-4 text-base text-ink sm:w-auto sm:text-sm focus:border-brand focus:outline-none"
             >
               {SORTS.map((s) => (
                 <option key={s.value} value={s.value}>

@@ -1,18 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: oklch(17.7% 0.0323 258.68);
-  --color-brand: oklch(22.51% 0.051 255.57);
-  --color-brand-soft: oklch(28% 0.048 255.57);
-  --color-ice: oklch(95.58% 0.0154 257.2);
-  --color-mist: oklch(97.05% 0.0092 257.2);
-  --color-line: oklch(91.42% 0.0148 257.2);
-  --color-slate: oklch(51.78% 0.0316 257.4);
-  --color-mint: oklch(77.33% 0.1736 160.47);
-  --color-mint-deep: oklch(62% 0.15 160.47);
-  --color-gold: oklch(84.87% 0.1508 81.27);
-  --color-coral: oklch(70.57% 0.1877 32.86);
-  --color-danger: oklch(60% 0.222 25.5);
+  /* Palette taken from the logo: mocha brown lettering, warm taupe bag, cream paper */
+  --color-ink: #2e2420; /* espresso: body text */
+  --color-brand: #6e564c; /* mocha: primary buttons, dark panels */
+  --color-brand-soft: #5e4940; /* mocha hover */
+  --color-cream: #fbf6f2; /* page background */
+  --color-ice: #f2e9e1; /* image wells, secondary surfaces */
+  --color-mist: #f8f2ec; /* muted surface, inputs */
+  --color-line: #e6dbd1; /* borders */
+  --color-slate: #74645b; /* secondary text */
+  --color-mint: #b8a494; /* warm taupe: accent surfaces */
+  --color-mint-deep: #7c6656; /* deep taupe: accent text and icons on light */
+  --color-sand: #e6d8cb; /* light taupe: accent text on mocha */
+  --color-gold: #e9d9bf; /* honey sand: "New" and "Bestseller" */
+  --color-coral: #a65e45; /* terracotta: deals and low stock */
+  --color-coral-deep: #8e4c36;
+  --color-danger: #b3261e;
 
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -63,14 +67,14 @@ html {
 }
 
 body {
-  background: #fff;
+  background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* The soft ice wash with mint and coral glows that sits under every 100cedis page */
+/* Soft cream wash with a taupe glow and a faint terracotta warmth under every page */
 body::before {
   content: "";
   position: fixed;
@@ -78,18 +82,18 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(40rem 30rem at 100% 0%, oklch(77.33% 0.1736 160.47 / 0.16), transparent 70%),
-    radial-gradient(34rem 28rem at 0% 55%, oklch(70.57% 0.1877 32.86 / 0.09), transparent 70%),
-    linear-gradient(180deg, oklch(97.05% 0.0092 257.2), #fff 60%);
+    radial-gradient(40rem 30rem at 100% 0%, rgb(184 164 148 / 0.22), transparent 70%),
+    radial-gradient(34rem 28rem at 0% 55%, rgb(166 94 69 / 0.07), transparent 70%),
+    linear-gradient(180deg, #f6eee7, var(--color-cream) 60%);
 }
 
 ::selection {
   background: var(--color-mint);
-  color: var(--color-brand);
+  color: var(--color-ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-mint);
+  outline: 2px solid var(--color-brand);
   outline-offset: 2px;
 }
 
@@ -107,7 +111,7 @@ select {
   background: var(--color-mist);
 }
 ::-webkit-scrollbar-thumb {
-  background: oklch(51.78% 0.0316 257.4 / 0.35);
+  background: rgb(110 86 76 / 0.35);
   border-radius: 999px;
   border: 2px solid var(--color-mist);
 }

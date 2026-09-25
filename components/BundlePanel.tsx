@@ -23,7 +23,7 @@ export function BundlePanel({ title, products }: { title: string; products: Prod
   }
 
   return (
-    <div className="rounded-[1.75rem] border border-mint/30 bg-[linear-gradient(135deg,oklch(77.33%_0.1736_160.47/0.14),oklch(97.05%_0.0092_257.2)_55%,white)] p-4 sm:rounded-[2rem] sm:p-8">
+    <div className="rounded-[1.75rem] border border-mint/40 bg-[linear-gradient(135deg,oklch(76%_0.035_55/0.14),oklch(97%_0.01_60)_55%,white)] p-4 sm:rounded-[2rem] sm:p-8">
       <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
         <h2 className="font-display text-[clamp(1.3rem,0.9rem+2vw,1.875rem)] leading-tight font-bold tracking-tight text-ink uppercase">{title}</h2>
         <div className="sm:text-right">
@@ -56,7 +56,7 @@ export function BundlePanel({ title, products }: { title: string; products: Prod
       >
         {added ? (
           <>
-            <Check size={18} weight="bold" className="text-mint" /> Added to cart
+            <Check size={18} weight="bold" className="text-sand" /> Added to cart
           </>
         ) : (
           "Add all to cart"

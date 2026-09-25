@@ -13,7 +13,7 @@ const SHOP_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="mt-16 bg-[oklch(16%_0.04_258)] text-white/70">
+    <footer className="mt-16 bg-[#2a201c] text-white/70">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-6 gap-y-9 min-[400px]:grid-cols-2 px-4 pt-12 pb-[max(2.5rem,env(safe-area-inset-bottom))] sm:px-6 sm:pt-16 md:gap-12 lg:grid-cols-4">
         <div className="min-[400px]:col-span-2 lg:col-span-1">
           <Image
@@ -27,7 +27,7 @@ export function Footer() {
             Perfumes, bags, clothing, accessories and beauty, delivered across Accra the same day.
           </p>
           <p className="mt-4 text-base leading-relaxed text-white/90 sm:text-sm">
-            <a href="tel:+233302008899" className="inline-flex min-h-11 items-center hover:text-mint active:text-mint sm:min-h-0">
+            <a href="tel:+233302008899" className="inline-flex min-h-11 items-center hover:text-sand active:text-sand sm:min-h-0">
               +233 30 200 8899
             </a>
             <br />
@@ -45,7 +45,7 @@ export function Footer() {
           <p className="font-display text-sm font-bold tracking-wide text-white uppercase">Help</p>
           <ul className="mt-3 space-y-2 text-base sm:text-sm">
             <li>
-              <a href="https://wa.me/233302008899" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center font-semibold text-mint hover:text-white active:text-white sm:min-h-9">
+              <a href="https://wa.me/233302008899" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center font-semibold text-sand hover:text-white active:text-white sm:min-h-9">
                 Order on WhatsApp
               </a>
             </li>

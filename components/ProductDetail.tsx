@@ -83,7 +83,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
         <div className="lg:sticky lg:top-28 lg:self-start">
           {off > 0 && (
-            <p className="inline-flex rounded-full bg-coral/15 px-3 py-1 text-[13px] font-semibold text-[oklch(52%_0.17_32.86)]">
+            <p className="inline-flex rounded-full bg-coral/15 px-3 py-1 text-[13px] font-semibold text-coral-deep">
               {off}% off · save {cedis((product.originalPrice ?? 0) - product.price)}
             </p>
           )}
@@ -96,7 +96,7 @@ export function ProductDetail({ product }: { product: Product }) {
             {product.originalPrice && <span className="text-lg text-slate/70 line-through sm:text-xl">{cedis(product.originalPrice)}</span>}
             <span className="font-display text-[clamp(1.85rem,1.4rem+2vw,2.25rem)] leading-tight font-bold tracking-tight text-ink">{cedis(product.price)}</span>
           </p>
-          <p className={`mt-2 text-[15px] font-semibold sm:text-sm ${low ? "text-[oklch(55%_0.17_32.86)]" : "text-mint-deep"}`}>
+          <p className={`mt-2 text-[15px] font-semibold sm:text-sm ${low ? "text-coral-deep" : "text-mint-deep"}`}>
             {low ? `Only ${product.stockQuantity} left` : "In stock, ready to dispatch"}
           </p>
 
@@ -154,7 +154,7 @@ export function ProductDetail({ product }: { product: Product }) {
             >
               {added ? (
                 <>
-                  <Check size={18} weight="bold" className="text-mint" /> Added
+                  <Check size={18} weight="bold" className="text-sand" /> Added
                 </>
               ) : (
                 <>Add to cart · {cedis(product.price * quantity)}</>
