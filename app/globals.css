@@ -44,6 +44,22 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* In the base layer so Tailwind sizing utilities (e.g. the logo's h-11) still win */
+@layer base {
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 body {

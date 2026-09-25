@@ -25,20 +25,20 @@ export default function Home() {
       <ProductRow title="Bestsellers" href="/shop?sort=popular" products={bestsellers} />
       <ProductRow title="Almost gone" href="/shop?stock=low" products={almostGone} />
 
-      <section className="mt-16 sm:mt-20">
+      <section className="mt-12 sm:mt-20">
         <Container>
           <SectionHeader title="Shop by category" href="/categories" linkLabel="All categories" />
           <CategoryGrid counts={counts} />
         </Container>
       </section>
 
-      <section className="mt-16 sm:mt-20">
+      <section className="mt-12 sm:mt-20">
         <Container>
           <BundlePanel title="Complete the look" products={look} />
         </Container>
       </section>
 
-      <section className="mt-16 sm:mt-20">
+      <section className="mt-12 sm:mt-20">
         <Container>
           <Newsletter />
         </Container>

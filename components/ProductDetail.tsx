@@ -35,24 +35,24 @@ export function ProductDetail({ product }: { product: Product }) {
   const askText = `Hi Tilly's Gallery, I'd like to ask about the ${product.name}${size ? ` (size ${size})` : ""}.`;
 
   return (
-    <main className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 sm:pt-8">
-      <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-sm text-slate">
-        <Link href="/shop" className="hover:text-brand">
+    <main className="mx-auto max-w-7xl px-4 pt-3 sm:px-6 sm:pt-6">
+      <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-2 text-[15px] text-slate sm:text-sm">
+        <Link href="/shop" className="inline-flex min-h-11 min-w-11 shrink-0 items-center hover:text-brand">
           Shop
         </Link>
         <span aria-hidden>/</span>
-        <Link href={`/shop?category=${product.category}`} className="hover:text-brand">
+        <Link href={`/shop?category=${product.category}`} className="inline-flex min-h-11 shrink-0 items-center hover:text-brand">
           {product.category}
         </Link>
         <span aria-hidden>/</span>
-        <span className="text-ink" aria-current="page">
+        <span className="truncate text-ink" aria-current="page">
           {product.name}
         </span>
       </nav>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-10">
+      <div className="mt-3 grid gap-6 sm:mt-5 sm:gap-8 lg:grid-cols-2 lg:gap-10">
         <div>
-          <div className="relative aspect-square overflow-hidden rounded-[1.75rem] bg-ice">
+          <div className="relative -mx-4 aspect-square overflow-hidden bg-ice sm:mx-0 sm:rounded-[1.75rem]">
             <Image
               src={image}
               alt={product.name}
@@ -63,7 +63,7 @@ export function ProductDetail({ product }: { product: Product }) {
               style={{ objectPosition: FOCAL_POINTS[focal] }}
             />
           </div>
-          <div className="mt-3 grid grid-cols-4 gap-3">
+          <div className="mt-3 grid grid-cols-4 gap-2 sm:gap-3">
             {FOCAL_POINTS.map((point, i) => (
               <button
                 key={point}
@@ -71,7 +71,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 onClick={() => setFocal(i)}
                 aria-label={`View detail ${i + 1}`}
                 aria-pressed={focal === i}
-                className={`press relative aspect-square overflow-hidden rounded-2xl bg-ice ring-offset-2 ${
+                className={`press relative aspect-square overflow-hidden rounded-xl bg-ice ring-offset-2 sm:rounded-2xl ${
                   focal === i ? "ring-2 ring-brand" : "opacity-80 hover:opacity-100"
                 }`}
               >
@@ -87,22 +87,22 @@ export function ProductDetail({ product }: { product: Product }) {
               {off}% off · save {cedis((product.originalPrice ?? 0) - product.price)}
             </p>
           )}
-          <h1 className="mt-3 font-display text-3xl leading-tight font-bold tracking-tight text-ink text-balance sm:text-4xl">
+          <h1 className="mt-3 font-display text-[clamp(1.6rem,1.1rem+2.4vw,2.25rem)] leading-tight font-bold tracking-tight text-balance text-ink">
             {product.name}
           </h1>
-          <p className="mt-2 text-slate">{product.details}</p>
+          <p className="mt-2 text-base text-slate">{product.details}</p>
 
-          <p className="tabular mt-5 flex items-baseline gap-3">
-            {product.originalPrice && <span className="text-xl text-slate/70 line-through">{cedis(product.originalPrice)}</span>}
-            <span className="font-display text-4xl font-bold tracking-tight text-ink">{cedis(product.price)}</span>
+          <p className="tabular mt-4 flex flex-wrap items-baseline gap-x-3 sm:mt-5">
+            {product.originalPrice && <span className="text-lg text-slate/70 line-through sm:text-xl">{cedis(product.originalPrice)}</span>}
+            <span className="font-display text-[clamp(1.85rem,1.4rem+2vw,2.25rem)] leading-tight font-bold tracking-tight text-ink">{cedis(product.price)}</span>
           </p>
-          <p className={`mt-2 text-sm font-semibold ${low ? "text-[oklch(55%_0.17_32.86)]" : "text-mint-deep"}`}>
+          <p className={`mt-2 text-[15px] font-semibold sm:text-sm ${low ? "text-[oklch(55%_0.17_32.86)]" : "text-mint-deep"}`}>
             {low ? `Only ${product.stockQuantity} left` : "In stock, ready to dispatch"}
           </p>
 
           {product.sizes && (
             <fieldset className="mt-6">
-              <legend className="text-sm font-semibold text-ink">
+              <legend className="text-[15px] font-semibold text-ink sm:text-sm">
                 Size <span className="font-normal text-slate">· {size}</span>
               </legend>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -112,7 +112,7 @@ export function ProductDetail({ product }: { product: Product }) {
                     type="button"
                     onClick={() => setSize(s)}
                     aria-pressed={size === s}
-                    className={`press h-11 min-w-12 rounded-full border px-4 text-sm font-semibold ${
+                    className={`press h-11 min-w-12 rounded-full border px-4 text-[15px] font-semibold sm:text-sm ${
                       size === s ? "border-brand bg-brand text-white" : "border-line bg-white text-ink hover:border-slate/50"
                     }`}
                   >
@@ -123,18 +123,18 @@ export function ProductDetail({ product }: { product: Product }) {
             </fieldset>
           )}
 
-          <div className="mt-6 flex items-center gap-3">
-            <div className="flex h-[52px] items-center rounded-full border border-line bg-white px-1.5">
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="order-1 flex h-[52px] items-center rounded-full border border-line bg-white px-1.5">
               <button
                 type="button"
                 aria-label="Decrease quantity"
                 disabled={quantity <= 1}
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="press grid size-10 place-items-center rounded-full text-ink hover:bg-mist disabled:opacity-35"
+                className="press grid size-11 place-items-center rounded-full text-ink hover:bg-mist disabled:opacity-35"
               >
                 <Minus size={16} weight="bold" />
               </button>
-              <span className="tabular w-8 text-center font-semibold" aria-live="polite">
+              <span className="tabular w-9 text-center font-semibold" aria-live="polite">
                 {quantity}
               </span>
               <button
@@ -142,7 +142,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 aria-label="Increase quantity"
                 disabled={quantity >= maxQty}
                 onClick={() => setQuantity((q) => Math.min(maxQty, q + 1))}
-                className="press grid size-10 place-items-center rounded-full text-ink hover:bg-mist disabled:opacity-35"
+                className="press grid size-11 place-items-center rounded-full text-ink hover:bg-mist disabled:opacity-35"
               >
                 <Plus size={16} weight="bold" />
               </button>
@@ -150,7 +150,7 @@ export function ProductDetail({ product }: { product: Product }) {
             <button
               type="button"
               onClick={handleAdd}
-              className="press flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full bg-brand font-semibold text-white hover:bg-brand-soft"
+              className="press order-3 flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-brand font-semibold whitespace-nowrap text-white hover:bg-brand-soft sm:order-2 sm:w-auto sm:flex-1"
             >
               {added ? (
                 <>
@@ -165,7 +165,7 @@ export function ProductDetail({ product }: { product: Product }) {
               onClick={() => toggle(product.slug)}
               aria-label={liked ? "Remove from wishlist" : "Save to wishlist"}
               aria-pressed={liked}
-              className="press grid size-[52px] shrink-0 place-items-center rounded-full border border-line bg-white text-brand hover:border-slate/50"
+              className="press order-2 ml-auto grid size-[52px] shrink-0 place-items-center rounded-full border border-line bg-white text-brand hover:border-slate/50 sm:order-3 sm:ml-0"
             >
               <Heart size={22} weight={liked ? "fill" : "regular"} className={liked ? "text-coral" : ""} />
             </button>
@@ -200,7 +200,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
 function InfoCard({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="flex gap-3 rounded-[1.25rem] border border-line bg-white p-4 text-sm leading-snug text-slate">
+    <div className="flex gap-3 rounded-[1.25rem] border border-line bg-white p-4 text-base leading-snug text-slate sm:text-sm">
       <span className="mt-0.5 shrink-0 text-mint-deep">{icon}</span>
       <p>{children}</p>
     </div>

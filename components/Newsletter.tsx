@@ -22,19 +22,19 @@ export function Newsletter() {
   }
 
   return (
-    <div className="relative overflow-hidden rounded-[2rem] bg-brand px-5 py-12 text-center sm:px-10 sm:py-14">
+    <div className="relative overflow-hidden rounded-[1.75rem] bg-brand px-4 py-10 text-center sm:rounded-[2rem] sm:px-10 sm:py-14">
       <div className="pointer-events-none absolute -bottom-48 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,oklch(77.33%_0.1736_160.47/0.25),transparent)]" />
       <div className="relative mx-auto max-w-xl">
-        <h2 className="font-display text-2xl font-bold tracking-tight text-white uppercase sm:text-3xl">
+        <h2 className="font-display text-[clamp(1.35rem,0.9rem+2.2vw,1.875rem)] leading-tight font-bold tracking-tight text-balance text-white uppercase">
           First to see what lands
         </h2>
-        <p className="mt-3 text-white/75">
+        <p className="mt-3 text-base text-white/75">
           New arrivals and restocks, sent on WhatsApp. One message when something good comes in, nothing more.
         </p>
 
         {sent ? (
-          <p className="mt-8 inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 font-medium text-white">
-            <Check size={18} weight="bold" className="text-mint" />
+          <p className="mt-8 inline-flex items-start gap-2 rounded-2xl bg-white/10 px-5 py-3 text-left font-medium text-white sm:items-center sm:rounded-full">
+            <Check size={18} weight="bold" className="mt-0.5 shrink-0 text-mint sm:mt-0" />
             Send the WhatsApp message that just opened and you&apos;re on the list.
           </p>
         ) : (
@@ -50,7 +50,7 @@ export function Newsletter() {
                 placeholder="Your name"
                 aria-invalid={!!error}
                 aria-describedby={error ? "nl-error" : undefined}
-                className="h-[52px] flex-1 rounded-full border border-white/15 bg-white/10 px-5 text-white placeholder:text-white/55 focus:border-mint focus:outline-none"
+                className="h-[52px] w-full min-w-0 rounded-full border border-white/15 bg-white/10 px-5 text-base sm:flex-1 text-white placeholder:text-white/55 focus:border-mint focus:outline-none"
               />
               <button
                 type="submit"

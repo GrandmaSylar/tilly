@@ -12,8 +12,8 @@ export function WishlistView() {
 
   return (
     <main>
-      <Container className="pt-8 sm:pt-10">
-        <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">Wishlist</h1>
+      <Container className="pt-6 sm:pt-10">
+        <h1 className="font-display text-[clamp(1.6rem,1.1rem+2.4vw,2.25rem)] leading-tight font-bold tracking-tight text-ink">Wishlist</h1>
         <p className="mt-1 text-slate">
           {saved.length > 0 ? `${saved.length} saved ${saved.length === 1 ? "piece" : "pieces"}, kept on this device.` : "Saved pieces stay on this device."}
         </p>
@@ -21,7 +21,7 @@ export function WishlistView() {
           {saved.length > 0 ? (
             <ProductGrid products={saved} />
           ) : (
-            <div className="flex flex-col items-center rounded-[2rem] border border-dashed border-line bg-white/70 px-6 py-20 text-center">
+            <div className="flex flex-col items-center rounded-[1.75rem] border border-dashed border-line bg-white/70 px-5 py-14 text-center sm:rounded-[2rem] sm:px-6 sm:py-20">
               <span className="grid size-14 place-items-center rounded-full bg-ice text-brand">
                 <Heart size={26} />
               </span>

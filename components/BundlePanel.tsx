@@ -23,17 +23,17 @@ export function BundlePanel({ title, products }: { title: string; products: Prod
   }
 
   return (
-    <div className="rounded-[2rem] border border-mint/30 bg-[linear-gradient(135deg,oklch(77.33%_0.1736_160.47/0.14),oklch(97.05%_0.0092_257.2)_55%,white)] p-5 sm:p-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <h2 className="font-display text-2xl font-bold tracking-tight text-ink uppercase sm:text-3xl">{title}</h2>
-        <div className="text-right">
+    <div className="rounded-[1.75rem] border border-mint/30 bg-[linear-gradient(135deg,oklch(77.33%_0.1736_160.47/0.14),oklch(97.05%_0.0092_257.2)_55%,white)] p-4 sm:rounded-[2rem] sm:p-8">
+      <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
+        <h2 className="font-display text-[clamp(1.3rem,0.9rem+2vw,1.875rem)] leading-tight font-bold tracking-tight text-ink uppercase">{title}</h2>
+        <div className="sm:text-right">
           <p className="text-xs text-slate">{products.length} pieces · total</p>
-          <p className="tabular font-display text-3xl font-bold tracking-tight text-ink">{cedis(total)}</p>
+          <p className="tabular font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">{cedis(total)}</p>
         </div>
       </div>
-      <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mt-5 grid gap-2.5 sm:mt-6 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4">
         {products.map((p) => (
-          <li key={p.slug}>
+          <li key={p.slug} className="min-w-0">
             <Link
               href={`/shop/${p.slug}`}
               className="press flex items-center gap-3 rounded-2xl border border-line bg-white p-2.5 hover:border-slate/40"
@@ -42,8 +42,8 @@ export function BundlePanel({ title, products }: { title: string; products: Prod
                 <Image src={productImageSrc(p.slug)} alt="" fill sizes="56px" className="object-cover" />
               </span>
               <span className="min-w-0">
-                <span className="block truncate text-sm font-semibold text-ink">{p.name}</span>
-                <span className="tabular text-sm text-slate">{cedis(p.price)}</span>
+                <span className="block truncate text-[15px] font-semibold text-ink sm:text-sm">{p.name}</span>
+                <span className="tabular text-[15px] text-slate sm:text-sm">{cedis(p.price)}</span>
               </span>
             </Link>
           </li>

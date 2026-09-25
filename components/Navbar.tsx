@@ -60,7 +60,7 @@ export function Navbar() {
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search perfumes, bags, linen…"
         aria-label="Search products"
-        className="h-10 w-full rounded-full border border-line bg-mist pr-4 pl-10 text-sm text-ink placeholder:text-slate transition-colors focus:border-mint focus:bg-white focus:outline-none"
+        className="h-11 w-full rounded-full border border-line bg-mist pr-4 pl-10 text-base text-ink md:text-sm placeholder:text-slate transition-colors focus:border-mint focus:bg-white focus:outline-none"
       />
     </form>
   );
@@ -68,9 +68,9 @@ export function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-line bg-white/85 backdrop-blur-md">
-        <div className="mx-auto flex h-[70px] max-w-7xl items-center gap-6 px-4 sm:px-6">
+        <div className="mx-auto flex h-[60px] max-w-7xl items-center gap-6 px-4 sm:h-[70px] sm:px-6">
           <Link href="/" className="press shrink-0" aria-label="Tilly's Gallery home">
-            <Image src="/logo.png" alt="Tilly's Gallery" width={624} height={414} priority className="h-[54px] w-auto" />
+            <Image src="/logo.png" alt="Tilly's Gallery" width={624} height={414} priority className="h-11 w-auto sm:h-[54px]" />
           </Link>
 
           <nav className="hidden items-center gap-5 xl:flex" aria-label="Main">
@@ -89,11 +89,11 @@ export function Navbar() {
 
           <div className="ml-auto hidden w-full max-w-[260px] md:block">{searchField}</div>
 
-          <div className="ml-auto flex items-center gap-1 md:ml-0">
+          <div className="ml-auto flex items-center gap-0.5 sm:gap-1 md:ml-0">
             <Link
               href="/wishlist"
               aria-label={`Wishlist, ${slugs.length} saved`}
-              className="press relative grid size-10 place-items-center rounded-full text-brand hover:bg-mist"
+              className="press relative grid size-11 place-items-center rounded-full text-brand hover:bg-mist"
             >
               <Heart size={22} />
               {slugs.length > 0 && <CountBadge value={slugs.length} />}
@@ -102,7 +102,7 @@ export function Navbar() {
               type="button"
               onClick={openCart}
               aria-label={`Open cart, ${itemCount} items`}
-              className="press relative grid size-10 place-items-center rounded-full text-brand hover:bg-mist"
+              className="press relative grid size-11 place-items-center rounded-full text-brand hover:bg-mist"
             >
               <ShoppingCart size={22} />
               {itemCount > 0 && <CountBadge key={bumpKey} value={itemCount} bump={bumpKey > 0} />}
@@ -111,7 +111,7 @@ export function Navbar() {
               href={`https://wa.me/${WHATSAPP_BUSINESS_NUMBER}`}
               target="_blank"
               rel="noreferrer"
-              className="press ml-2 hidden h-9 items-center rounded-full bg-brand px-4 text-[13px] font-semibold text-white hover:bg-brand-soft sm:inline-flex"
+              className="press ml-2 hidden h-11 items-center rounded-full bg-brand px-5 text-sm font-semibold text-white hover:bg-brand-soft sm:inline-flex"
             >
               Concierge
             </a>
@@ -120,13 +120,13 @@ export function Navbar() {
               aria-label="Open menu"
               aria-expanded={isMenuOpen}
               onClick={() => setIsMenuOpen(true)}
-              className="press grid size-10 place-items-center rounded-full text-brand hover:bg-mist xl:hidden"
+              className="press -mr-1.5 grid size-11 place-items-center rounded-full text-brand hover:bg-mist sm:mr-0 xl:hidden"
             >
               <List size={24} />
             </button>
           </div>
         </div>
-        <div className="px-4 pb-3 md:hidden">{searchField}</div>
+        <div className="px-4 pb-2.5 md:hidden">{searchField}</div>
       </header>
 
       {/* Mobile menu */}
@@ -144,13 +144,13 @@ export function Navbar() {
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex h-[70px] items-center justify-between border-b border-line px-5">
+        <div className="flex h-[60px] shrink-0 items-center justify-between border-b border-line px-5 sm:h-[70px]">
           <span className="font-display text-lg font-bold tracking-tight text-brand">Menu</span>
           <button
             type="button"
             aria-label="Close menu"
             onClick={() => setIsMenuOpen(false)}
-            className="press grid size-10 place-items-center rounded-full text-brand hover:bg-mist"
+            className="press -mr-2 grid size-11 place-items-center rounded-full text-brand hover:bg-mist"
           >
             <X size={22} />
           </button>
@@ -170,7 +170,7 @@ export function Navbar() {
             </Link>
           ))}
         </nav>
-        <div className="border-t border-line p-5">
+        <div className="border-t border-line px-5 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
           <a
             href={`https://wa.me/${WHATSAPP_BUSINESS_NUMBER}`}
             target="_blank"

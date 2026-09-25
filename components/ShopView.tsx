@@ -61,13 +61,13 @@ export function ShopView() {
 
   return (
     <main>
-      <Container className="pt-8 sm:pt-10">
-        <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">{title}</h1>
-        <p className="mt-1 text-slate">
+      <Container className="pt-6 sm:pt-10">
+        <h1 className="font-display text-[clamp(1.6rem,1.1rem+2.4vw,2.25rem)] leading-tight font-bold tracking-tight text-ink">{title}</h1>
+        <p className="mt-1 text-base text-slate">
           {results.length} {results.length === 1 ? "piece" : "pieces"} · same-day delivery across Greater Accra
         </p>
 
-        <div className="relative mt-6">
+        <div className="relative mt-5 sm:mt-6">
           <MagnifyingGlass size={18} className="pointer-events-none absolute top-1/2 left-5 -translate-y-1/2 text-slate" />
           <input
             type="search"
@@ -75,7 +75,7 @@ export function ShopView() {
             key={search}
             onKeyDown={(e) => e.key === "Enter" && update({ search: e.currentTarget.value.trim() })}
             onBlur={(e) => e.currentTarget.value.trim() !== search && update({ search: e.currentTarget.value.trim() })}
-            placeholder="Search products, categories or materials"
+            placeholder="Search products or materials"
             aria-label="Search products"
             className="h-12 w-full rounded-full border border-line bg-white pr-5 pl-12 text-ink placeholder:text-slate focus:border-mint focus:outline-none"
           />
@@ -98,7 +98,7 @@ export function ShopView() {
           </Chip>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+        <div className="mt-4 flex flex-col gap-3 sm:mt-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="no-scrollbar -mx-4 flex gap-1 overflow-x-auto px-4 sm:mx-0 sm:px-0">
             {CATEGORIES.map((c) => {
               const active = category?.toLowerCase() === c.name.toLowerCase();
@@ -108,7 +108,7 @@ export function ShopView() {
                   type="button"
                   onClick={() => update({ category: active ? null : c.name })}
                   aria-pressed={active}
-                  className={`press shrink-0 rounded-full px-3.5 py-2 text-sm font-medium ${
+                  className={`press h-11 shrink-0 rounded-full px-4 text-[15px] font-medium sm:text-sm ${
                     active ? "bg-ice text-brand" : "text-slate hover:text-brand"
                   }`}
                 >
@@ -117,12 +117,12 @@ export function ShopView() {
               );
             })}
           </div>
-          <label className="relative ml-auto">
+          <label className="relative sm:ml-auto">
             <span className="sr-only">Sort by</span>
             <select
               value={sort}
               onChange={(e) => update({ sort: e.target.value === "newest" ? null : e.target.value })}
-              className="h-10 cursor-pointer appearance-none rounded-full border border-line bg-white pr-10 pl-4 text-sm text-ink focus:border-mint focus:outline-none"
+              className="h-11 w-full cursor-pointer appearance-none rounded-full border border-line bg-white pr-10 pl-4 text-base text-ink sm:w-auto sm:text-sm focus:border-mint focus:outline-none"
             >
               {SORTS.map((s) => (
                 <option key={s.value} value={s.value}>
@@ -135,11 +135,11 @@ export function ShopView() {
         </div>
       </Container>
 
-      <Container className="mt-6">
+      <Container className="mt-5 sm:mt-6">
         {results.length > 0 ? (
           <ProductGrid products={results} />
         ) : (
-          <div className="flex flex-col items-center rounded-[2rem] border border-dashed border-line bg-white/70 px-6 py-20 text-center">
+          <div className="flex flex-col items-center rounded-[1.75rem] border border-dashed border-line bg-white/70 px-5 py-14 text-center sm:rounded-[2rem] sm:px-6 sm:py-20">
             <p className="font-display text-2xl font-bold tracking-tight text-ink">Nothing matches that yet</p>
             <p className="mt-2 max-w-sm text-slate">
               {search ? `No pieces match "${search}" with these filters.` : "No pieces match these filters."} Clear them to see everything, or ask the concierge to source it.
@@ -162,7 +162,7 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`press h-9 shrink-0 rounded-full border px-4 text-[13px] font-semibold whitespace-nowrap ${
+      className={`press h-11 shrink-0 rounded-full border px-4 text-sm font-semibold whitespace-nowrap ${
         active ? "border-brand bg-brand text-white" : "border-line bg-white text-ink hover:border-slate/50"
       }`}
     >

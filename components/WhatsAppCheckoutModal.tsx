@@ -68,14 +68,14 @@ export function WhatsAppCheckoutModal({ isOpen, onClose }: { isOpen: boolean; on
         role="dialog"
         aria-modal="true"
         aria-labelledby="checkout-title"
-        className="relative mt-auto w-full max-w-lg rounded-t-[1.75rem] bg-white p-5 shadow-[0_32px_64px_-24px_oklch(22.51%_0.051_255.57/0.5)] transition-[opacity,transform] duration-[260ms] ease-[var(--ease-out)] starting:translate-y-4 starting:opacity-0 sm:my-auto sm:rounded-[1.75rem] sm:p-7 sm:starting:translate-y-0 sm:starting:scale-[0.96]"
+        className="relative mt-auto w-full max-w-lg rounded-t-[1.75rem] bg-white px-5 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-[0_32px_64px_-24px_oklch(22.51%_0.051_255.57/0.5)] transition-[opacity,transform] duration-[260ms] ease-[var(--ease-out)] starting:translate-y-4 starting:opacity-0 sm:my-auto sm:rounded-[1.75rem] sm:p-7 sm:starting:translate-y-0 sm:starting:scale-[0.96]"
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 id="checkout-title" className="font-display text-2xl font-bold tracking-tight text-ink">
+            <h2 id="checkout-title" className="font-display text-[1.4rem] font-bold tracking-tight text-ink sm:text-2xl">
               Finish your order
             </h2>
-            <p className="mt-1 text-sm text-slate">
+            <p className="mt-1 text-[15px] text-slate sm:text-sm">
               We&apos;ll confirm stock and payment on WhatsApp. Order{" "}
               <span className="tabular font-semibold whitespace-nowrap text-ink">{orderRef}</span>
             </p>
@@ -84,7 +84,7 @@ export function WhatsAppCheckoutModal({ isOpen, onClose }: { isOpen: boolean; on
             type="button"
             onClick={onClose}
             aria-label="Close checkout"
-            className="press -mt-1 -mr-1 grid size-10 shrink-0 place-items-center rounded-full text-brand hover:bg-mist"
+            className="press -mt-1.5 -mr-2 grid size-11 shrink-0 place-items-center rounded-full text-brand hover:bg-mist"
           >
             <X size={20} />
           </button>
@@ -131,8 +131,8 @@ export function WhatsAppCheckoutModal({ isOpen, onClose }: { isOpen: boolean; on
           </Field>
 
           <fieldset>
-            <legend className="text-sm font-semibold text-ink">How you&apos;ll pay</legend>
-            <div className="mt-2 grid grid-cols-2 gap-2">
+            <legend className="text-[15px] font-semibold text-ink sm:text-sm">How you&apos;ll pay</legend>
+            <div className="mt-2 grid grid-cols-1 gap-2 min-[360px]:grid-cols-2">
               {PAYMENT_METHODS.map((method) => {
                 const active = formData.paymentMethod === method;
                 return (
@@ -141,7 +141,7 @@ export function WhatsAppCheckoutModal({ isOpen, onClose }: { isOpen: boolean; on
                     type="button"
                     onClick={() => set("paymentMethod", method)}
                     aria-pressed={active}
-                    className={`press h-11 rounded-full border text-sm font-semibold ${
+                    className={`press h-12 rounded-full border px-2 text-[15px] font-semibold sm:h-11 sm:text-sm ${
                       active ? "border-brand bg-brand text-white" : "border-line bg-white text-ink hover:border-slate/50"
                     }`}
                   >
@@ -195,12 +195,12 @@ function inputClass(invalid: boolean) {
 function Field({ id, label, error, children }: { id: string; label: string; error?: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-semibold text-ink">
+      <label htmlFor={id} className="text-[15px] font-semibold text-ink sm:text-sm">
         {label}
       </label>
       {children}
       {error && (
-        <p id={`${id}-error`} role="alert" className="text-sm text-danger">
+        <p id={`${id}-error`} role="alert" className="text-[15px] text-danger sm:text-sm">
           {error}
         </p>
       )}

@@ -49,13 +49,13 @@ export function CartDrawer() {
             type="button"
             aria-label="Close cart"
             onClick={closeCart}
-            className="press grid size-10 place-items-center rounded-full text-brand hover:bg-mist"
+            className="press -mr-2 grid size-11 place-items-center rounded-full text-brand hover:bg-mist"
           >
             <X size={20} />
           </button>
         </div>
 
-        <p className="mx-5 rounded-xl bg-mint/15 px-4 py-2.5 text-sm text-brand">
+        <p className="mx-5 rounded-xl bg-mint/15 px-4 py-2.5 text-[15px] text-brand sm:text-sm">
           <span className="font-semibold">Free same-day delivery</span> across Greater Accra.
         </p>
 
@@ -66,7 +66,7 @@ export function CartDrawer() {
                 <ShoppingCart size={28} />
               </span>
               <p className="mt-5 font-display text-xl font-bold tracking-tight text-ink">Your cart is empty</p>
-              <p className="mt-1.5 max-w-xs text-sm text-slate">Add a perfume, a bag or something in silk and it will wait here.</p>
+              <p className="mt-1.5 max-w-xs text-base text-slate">Add a perfume, a bag or something in silk and it will wait here.</p>
               <Link
                 href="/shop"
                 onClick={closeCart}
@@ -96,7 +96,7 @@ export function CartDrawer() {
                         type="button"
                         aria-label={`Remove ${item.name}`}
                         onClick={() => removeItem(item.slug, item.size)}
-                        className="press -mt-1 -mr-1 grid size-8 shrink-0 place-items-center rounded-full text-slate hover:bg-mist hover:text-danger"
+                        className="press -mt-2 -mr-2 grid size-11 shrink-0 place-items-center rounded-full text-slate hover:bg-mist hover:text-danger"
                       >
                         <Trash size={16} />
                       </button>
@@ -108,16 +108,16 @@ export function CartDrawer() {
                           aria-label="Decrease quantity"
                           disabled={item.quantity <= 1}
                           onClick={() => updateQuantity(item.slug, item.size, item.quantity - 1)}
-                          className="press grid size-8 place-items-center rounded-full text-ink hover:bg-mist disabled:opacity-35"
+                          className="press grid size-11 place-items-center rounded-full text-ink hover:bg-mist disabled:opacity-35"
                         >
                           <Minus size={13} weight="bold" />
                         </button>
-                        <span className="tabular w-6 text-center text-sm font-semibold">{item.quantity}</span>
+                        <span className="tabular w-7 text-center text-base font-semibold">{item.quantity}</span>
                         <button
                           type="button"
                           aria-label="Increase quantity"
                           onClick={() => updateQuantity(item.slug, item.size, item.quantity + 1)}
-                          className="press grid size-8 place-items-center rounded-full text-ink hover:bg-mist"
+                          className="press grid size-11 place-items-center rounded-full text-ink hover:bg-mist"
                         >
                           <Plus size={13} weight="bold" />
                         </button>
@@ -132,8 +132,8 @@ export function CartDrawer() {
         </div>
 
         {items.length > 0 && (
-          <div className="border-t border-line px-5 pt-4 pb-5">
-            <div className="flex justify-between text-sm text-slate">
+          <div className="border-t border-line px-5 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+            <div className="flex justify-between text-[15px] text-slate sm:text-sm">
               <span>Delivery (Greater Accra)</span>
               <span className="font-semibold text-mint-deep">Free</span>
             </div>

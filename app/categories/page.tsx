@@ -13,8 +13,8 @@ export default function CategoriesPage() {
 
   return (
     <main>
-      <Container className="pt-8 sm:pt-10">
-        <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">Categories</h1>
+      <Container className="pt-6 sm:pt-10">
+        <h1 className="font-display text-[clamp(1.6rem,1.1rem+2.4vw,2.25rem)] leading-tight font-bold tracking-tight text-ink">Categories</h1>
         <p className="mt-1 text-slate">{products.length} pieces across five categories.</p>
         <div className="mt-8">
           <CategoryGrid counts={counts} />
