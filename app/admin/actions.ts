@@ -3,11 +3,12 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { after } from "next/server";
 import { db } from "@/lib/db";
 import { PRODUCTS_TAG, type Activity } from "@/lib/catalog";
 import { requireAdmin } from "@/lib/admin-auth";
 import { createSessionToken, safeEqual, SESSION_COOKIE, SESSION_MAX_AGE } from "@/lib/admin-session";
-import { isAllowedImageUrl } from "@/lib/cloudinary-server";
+import { deleteUploadedImage, isAllowedImageUrl } from "@/lib/cloudinary-server";
 import { parseProductForm, type ProductFieldErrors } from "@/lib/product-input";
 import { cedis } from "@/lib/format";
 
@@ -90,6 +91,7 @@ export async function saveProduct(_prev: SaveState, form: FormData): Promise<Sav
     } else {
       // The slug is the product's permanent ID (carts and wishlists reference it), so edits never change it.
       slug = String(form.get("originalSlug") ?? "");
+      const [previous] = await sql`select image_url from products where slug = ${slug}`;
       const updated = await sql`
         update products set
           name = ${d.name}, category = ${d.category}, price = ${d.price}, original_price = ${d.original_price},
@@ -100,6 +102,8 @@ export async function saveProduct(_prev: SaveState, form: FormData): Promise<Sav
         returning slug`;
       if (!updated.length) return { errors: { form: "This product no longer exists. It may have been deleted." } };
       await logActivity("update", slug, `Edited ${d.name}`);
+      // The photo was replaced: remove the old one from Cloudinary once the response is sent.
+      if (previous?.image_url && previous.image_url !== d.image_url) after(() => deleteUploadedImage(previous.image_url));
     }
   } catch (e) {
     if ((e as { code?: string }).code === "23505") {
@@ -116,8 +120,9 @@ export async function deleteProduct(slug: string) {
   await requireAdmin();
 
   try {
-    const rows = await db()`delete from products where slug = ${slug} returning name`;
+    const rows = await db()`delete from products where slug = ${slug} returning name, image_url`;
     await logActivity("delete", slug, `Deleted ${rows[0]?.name ?? slug}`);
+    if (rows[0]?.image_url) after(() => deleteUploadedImage(rows[0].image_url));
   } catch (e) {
     return { error: `Couldn't delete: ${message(e)}` };
   }

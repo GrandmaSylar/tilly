@@ -37,3 +37,37 @@ export function isAllowedImageUrl(url: string) {
   const { cloudName } = cloudinaryConfig();
   return url.startsWith(`https://res.cloudinary.com/${cloudName}/image/upload/`);
 }
+
+/**
+ * Cloudinary public ID for one of our uploads, e.g.
+ * https://res.cloudinary.com/<cloud>/image/upload/v1790881266/tilly-products/abc.jpg → tilly-products/abc.
+ * Returns null for anything outside our upload folder (such as the launch photos in /public).
+ */
+export function publicIdFromUrl(url: string) {
+  const match = url.match(/\/image\/upload\/(?:v\d+\/)?(.+)\.[a-z0-9]+$/i);
+  const id = match?.[1];
+  return id && id.startsWith(`${UPLOAD_FOLDER}/`) ? id : null;
+}
+
+/** Deletes a product photo from Cloudinary. Never throws: a leftover image shouldn't block a product change. */
+export async function deleteUploadedImage(url: string | null | undefined) {
+  const publicId = url ? publicIdFromUrl(url) : null;
+  if (!publicId) return;
+
+  try {
+    const { cloudName, apiKey } = cloudinaryConfig();
+    const params = { invalidate: "true", public_id: publicId, timestamp: Math.round(Date.now() / 1000) };
+    const body = new FormData();
+    for (const [key, value] of Object.entries(params)) body.append(key, String(value));
+    body.append("api_key", apiKey);
+    body.append("signature", signUpload(params));
+
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`, { method: "POST", body });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || (data.result !== "ok" && data.result !== "not found")) {
+      console.error(`Cloudinary delete failed for ${publicId}:`, data.error?.message ?? data.result ?? res.status);
+    }
+  } catch (e) {
+    console.error(`Cloudinary delete failed for ${publicId}:`, e);
+  }
+}
