@@ -2,16 +2,18 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ShopView } from "@/components/ShopView";
 import { Container } from "@/components/Section";
+import { getProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Shop everything — Tilly's Gallery",
   description: "Perfumes, bags, clothing, accessories and beauty. Filter by price, category and deals.",
 };
 
-export default function ShopPage() {
+export default async function ShopPage() {
+  const products = await getProducts();
   return (
     <Suspense fallback={<ShopSkeleton />}>
-      <ShopView />
+      <ShopView products={products} />
     </Suspense>
   );
 }

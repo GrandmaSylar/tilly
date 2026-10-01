@@ -15,7 +15,7 @@ export function BundlePanel({ title, products }: { title: string; products: Prod
 
   function addAll() {
     products.forEach((p) =>
-      addItem({ slug: p.slug, name: p.name, price: p.price, size: p.sizes?.[0] ?? "One Size", image: productImageSrc(p.slug) })
+      addItem({ slug: p.slug, name: p.name, price: p.price, size: p.sizes?.[0] ?? "One Size", image: productImageSrc(p, 200) })
     );
     setAdded(true);
     openCart();
@@ -39,7 +39,7 @@ export function BundlePanel({ title, products }: { title: string; products: Prod
               className="press flex items-center gap-3 rounded-2xl border border-line bg-white p-2.5 hover:border-slate/40"
             >
               <span className="relative size-14 shrink-0 overflow-hidden rounded-xl bg-ice">
-                <Image src={productImageSrc(p.slug)} alt="" fill sizes="56px" className="object-cover" />
+                <Image src={productImageSrc(p, 200)} alt="" fill sizes="56px" className="object-cover" />
               </span>
               <span className="min-w-0">
                 <span className="block truncate text-[15px] font-semibold text-ink sm:text-sm">{p.name}</span>

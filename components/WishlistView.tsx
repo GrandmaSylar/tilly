@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { Heart } from "@phosphor-icons/react";
-import { products } from "@/lib/products";
+import type { Product } from "@/lib/products";
 import { useWishlist } from "@/context/WishlistContext";
 import { Container, ProductGrid } from "@/components/Section";
 
-export function WishlistView() {
+export function WishlistView({ products }: { products: Product[] }) {
   const { slugs } = useWishlist();
   const saved = products.filter((p) => slugs.includes(p.slug));
 

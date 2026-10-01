@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { MagnifyingGlass, CaretDown, X } from "@phosphor-icons/react";
-import { products, CATEGORIES, PRICE_TIERS, isLowStock } from "@/lib/products";
+import { CATEGORIES, PRICE_TIERS, isLowStock, type Product } from "@/lib/products";
 import { cedis } from "@/lib/format";
 import { Container, ProductGrid } from "@/components/Section";
 
@@ -15,7 +15,7 @@ const SORTS = [
   { value: "price-desc", label: "Price: high to low" },
 ];
 
-export function ShopView() {
+export function ShopView({ products }: { products: Product[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
@@ -54,7 +54,7 @@ export function ShopView() {
       return b.index - a.index; // newest: later catalogue entries arrived most recently
     });
     return list.map(({ p }) => p);
-  }, [category, price, sale, lowStock, search, sort]);
+  }, [products, category, price, sale, lowStock, search, sort]);
 
   const filtersActive = !!(category || price || sale || lowStock || search);
   const title = category ?? (sale ? "Deals" : price ? `${cedis(price)} & below` : "Shop everything");

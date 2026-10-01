@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, Minus, Plus, Truck, ShieldCheck, WhatsappLogo, Check } from "@phosphor-icons/react";
-import { productImageSrc, isLowStock, type Product } from "@/lib/products";
+import { productImageSrc, isLowStock, isSoldOut, type Product } from "@/lib/products";
 import { cedis, discountPercent } from "@/lib/format";
 import { WHATSAPP_BUSINESS_NUMBER } from "@/lib/whatsapp";
 import { useCart } from "@/context/CartContext";
@@ -19,13 +19,15 @@ export function ProductDetail({ product }: { product: Product }) {
   const [size, setSize] = useState(product.sizes?.[0] ?? null);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
-  const image = productImageSrc(product.slug);
+  const image = productImageSrc(product, 1400);
   const liked = has(product.slug);
   const off = discountPercent(product.price, product.originalPrice);
   const low = isLowStock(product);
-  const maxQty = product.stockQuantity ?? 99;
+  const soldOut = isSoldOut(product);
+  const maxQty = Math.max(1, product.stockQuantity);
 
   function handleAdd() {
+    if (soldOut) return;
     addItem({ slug: product.slug, name: product.name, price: product.price, size: size ?? "One Size", image, quantity });
     setAdded(true);
     openCart();
@@ -96,8 +98,8 @@ export function ProductDetail({ product }: { product: Product }) {
             {product.originalPrice && <span className="text-lg text-slate/70 line-through sm:text-xl">{cedis(product.originalPrice)}</span>}
             <span className="font-display text-[clamp(1.85rem,1.4rem+2vw,2.25rem)] leading-tight font-bold tracking-tight text-ink">{cedis(product.price)}</span>
           </p>
-          <p className={`mt-2 text-[15px] font-semibold sm:text-sm ${low ? "text-coral-deep" : "text-mint-deep"}`}>
-            {low ? `Only ${product.stockQuantity} left` : "In stock, ready to dispatch"}
+          <p className={`mt-2 text-[15px] font-semibold sm:text-sm ${soldOut || low ? "text-coral-deep" : "text-mint-deep"}`}>
+            {soldOut ? "Sold out. Ask on WhatsApp about restocks." : low ? `Only ${product.stockQuantity} left` : "In stock, ready to dispatch"}
           </p>
 
           {product.sizes && (
@@ -140,7 +142,7 @@ export function ProductDetail({ product }: { product: Product }) {
               <button
                 type="button"
                 aria-label="Increase quantity"
-                disabled={quantity >= maxQty}
+                disabled={soldOut || quantity >= maxQty}
                 onClick={() => setQuantity((q) => Math.min(maxQty, q + 1))}
                 className="press grid size-11 place-items-center rounded-full text-ink hover:bg-mist disabled:opacity-35"
               >
@@ -150,9 +152,12 @@ export function ProductDetail({ product }: { product: Product }) {
             <button
               type="button"
               onClick={handleAdd}
-              className="press order-3 flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-brand font-semibold whitespace-nowrap text-white hover:bg-brand-soft sm:order-2 sm:w-auto sm:flex-1"
+              disabled={soldOut}
+              className="press order-3 flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-brand font-semibold whitespace-nowrap text-white hover:bg-brand-soft disabled:pointer-events-none disabled:bg-line disabled:text-slate sm:order-2 sm:w-auto sm:flex-1"
             >
-              {added ? (
+              {soldOut ? (
+                "Sold out"
+              ) : added ? (
                 <>
                   <Check size={18} weight="bold" className="text-sand" /> Added
                 </>

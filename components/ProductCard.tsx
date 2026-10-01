@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Heart, Plus } from "@phosphor-icons/react";
-import { productImageSrc, isLowStock, type Product } from "@/lib/products";
+import { productImageSrc, isLowStock, isSoldOut, type Product } from "@/lib/products";
 import { cedis, discountPercent } from "@/lib/format";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
@@ -11,12 +11,14 @@ import { useWishlist } from "@/context/WishlistContext";
 export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
   const { addItem, openCart } = useCart();
   const { has, toggle } = useWishlist();
-  const image = productImageSrc(product.slug);
+  const image = productImageSrc(product, 640);
+  const soldOut = isSoldOut(product);
   const liked = has(product.slug);
   const off = discountPercent(product.price, product.originalPrice);
   const href = `/shop/${product.slug}`;
 
   function handleAdd() {
+    if (soldOut) return;
     addItem({
       slug: product.slug,
       name: product.name,
@@ -40,6 +42,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
         />
         {off > 0 && <Badge className="top-2 left-2 bg-mint text-ink">{off}% off</Badge>}
         {!off && product.isBestseller && <Badge className="top-2 left-2 bg-gold text-ink">Bestseller</Badge>}
+        {soldOut && <Badge className="bottom-2 left-2 bg-ink text-white">Sold out</Badge>}
         {isLowStock(product) && (
           <Badge className="bottom-2 left-2 bg-coral text-white">Only {product.stockQuantity} left</Badge>
         )}
@@ -78,11 +81,12 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           <button
             type="button"
             onClick={handleAdd}
-            className="press relative z-10 grid size-11 shrink-0 place-items-center rounded-full bg-brand text-white hover:bg-brand-soft sm:flex sm:h-10 sm:w-auto sm:px-4 sm:text-[13px] sm:font-semibold"
-            aria-label={`Add ${product.name} to cart`}
+            disabled={soldOut}
+            className="press relative z-10 grid size-11 shrink-0 place-items-center rounded-full bg-brand text-white hover:bg-brand-soft disabled:pointer-events-none disabled:bg-line disabled:text-slate sm:flex sm:h-10 sm:w-auto sm:px-4 sm:text-[13px] sm:font-semibold"
+            aria-label={soldOut ? `${product.name} is sold out` : `Add ${product.name} to cart`}
           >
             <Plus size={18} weight="bold" className="sm:hidden" />
-            <span className="hidden sm:inline">Add</span>
+            <span className="hidden sm:inline">{soldOut ? "Sold out" : "Add"}</span>
           </button>
         </div>
       </div>

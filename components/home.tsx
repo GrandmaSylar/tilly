@@ -113,7 +113,7 @@ function HeroCard({
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="relative aspect-[4/3.4] overflow-hidden rounded-xl bg-ice">
-        <Image src={productImageSrc(product.slug)} alt="" fill priority sizes="260px" className="object-cover" />
+        <Image src={productImageSrc(product, 520)} alt="" fill priority sizes="260px" className="object-cover" />
       </div>
       <div className="px-1 pt-2 pb-0.5 sm:pt-2.5 sm:pb-1">{children}</div>
     </div>
@@ -210,7 +210,7 @@ export function DealsPanel({ deals }: { deals: Product[] }) {
                 </div>
                 <div className="relative mt-3 aspect-[4/3] overflow-hidden rounded-xl bg-ice">
                   <Image
-                    src={productImageSrc(p.slug)}
+                    src={productImageSrc(p, 700)}
                     alt={p.name}
                     fill
                     sizes="(min-width: 640px) 33vw, 78vw"

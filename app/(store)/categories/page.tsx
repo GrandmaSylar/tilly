@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { CATEGORIES, products } from "@/lib/products";
+import { CATEGORIES } from "@/lib/products";
+import { getProducts } from "@/lib/catalog";
 import { CategoryGrid, PriceTiles } from "@/components/home";
 import { Container } from "@/components/Section";
 
@@ -8,7 +9,8 @@ export const metadata: Metadata = {
   description: "Perfumes, bags, clothing, accessories and beauty.",
 };
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+  const products = await getProducts();
   const counts = Object.fromEntries(CATEGORIES.map((c) => [c.name, products.filter((p) => p.category === c.name).length]));
 
   return (

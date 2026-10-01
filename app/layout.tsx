@@ -1,11 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
-import { CartProvider } from "@/context/CartContext";
-import { WishlistProvider } from "@/context/WishlistContext";
-import { CartDrawer } from "@/components/CartDrawer";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -37,27 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}>
-        <CartProvider>
-          <WishlistProvider>
-            <div className="bg-brand text-white">
-              <div className="mx-auto flex max-w-7xl items-center justify-center gap-4 px-4 py-2 sm:justify-between sm:px-6">
-                <p className="font-display text-xs font-bold tracking-[0.06em] uppercase">
-                  Same-day delivery across Greater Accra
-                </p>
-                <p className="hidden text-[11px] font-semibold uppercase tracking-[0.06em] text-sand sm:block">
-                  48 hours anywhere in Ghana
-                </p>
-              </div>
-            </div>
-            <Navbar />
-            {children}
-            <Footer />
-            <CartDrawer />
-            <WhatsAppFloat />
-          </WishlistProvider>
-        </CartProvider>
-      </body>
+      <body className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}>{children}</body>
     </html>
   );
 }
