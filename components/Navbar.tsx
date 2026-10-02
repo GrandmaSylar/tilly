@@ -4,10 +4,11 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { List, X, MagnifyingGlass, Heart, ShoppingCart, WhatsappLogo, ArrowRight } from "@phosphor-icons/react";
+import { List, X, MagnifyingGlass, Heart, ShoppingCart, WhatsappLogo, ArrowRight, TiktokLogo, InstagramLogo } from "@phosphor-icons/react";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { WHATSAPP_BUSINESS_NUMBER } from "@/lib/whatsapp";
+import { CONTACT } from "@/lib/contact";
 
 const NAV_LINKS = [
   { label: "Shop", href: "/shop" },
@@ -180,7 +181,15 @@ export function Navbar() {
             <WhatsappLogo size={20} weight="fill" className="text-sand" />
             Chat with our concierge
           </a>
-          <p className="mt-3 text-center text-xs text-slate">Airport Residential Area, Accra</p>
+          <div className="mt-3 flex items-center justify-center gap-1">
+            <a href={CONTACT.tiktok.url} target="_blank" rel="noreferrer" aria-label="Tilly's Gallery on TikTok" className="press grid size-11 place-items-center rounded-full text-brand hover:bg-mist">
+              <TiktokLogo size={22} />
+            </a>
+            <a href={CONTACT.instagram.url} target="_blank" rel="noreferrer" aria-label="Tilly's Gallery on Instagram" className="press grid size-11 place-items-center rounded-full text-brand hover:bg-mist">
+              <InstagramLogo size={22} />
+            </a>
+          </div>
+          <p className="mt-1 text-center text-xs text-slate">{CONTACT.address}</p>
         </div>
       </aside>
     </>

@@ -8,7 +8,7 @@ export type OrderCustomerDetails = {
   notes?: string;
 };
 
-export const WHATSAPP_BUSINESS_NUMBER = "233302008899"; // Format: Country code without +
+export const WHATSAPP_BUSINESS_NUMBER = "233547790821"; // 054 779 0821, country code without +
 
 export function generateOrderReference(): string {
   const randomNum = Math.floor(1000 + Math.random() * 9000);

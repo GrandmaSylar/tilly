@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { X, WhatsappLogo, LockSimple } from "@phosphor-icons/react";
 import { useCart } from "@/context/CartContext";
 import { cedis } from "@/lib/format";
+import { CONTACT } from "@/lib/contact";
 import { generateOrderReference, buildWhatsAppCheckoutUrl, type OrderCustomerDetails } from "@/lib/whatsapp";
 
 const PAYMENT_METHODS: OrderCustomerDetails["paymentMethod"][] = ["MTN MoMo", "Telecel Cash", "Bank Transfer", "Cash on Delivery"];
@@ -150,6 +151,12 @@ export function WhatsAppCheckoutModal({ isOpen, onClose }: { isOpen: boolean; on
                 );
               })}
             </div>
+            {formData.paymentMethod === "MTN MoMo" && (
+              <p className="mt-2.5 rounded-2xl bg-mist px-4 py-3 text-[15px] text-ink sm:text-sm">
+                MoMo number: <strong className="tabular">{CONTACT.momoNumber}</strong> (Tilly&apos;s Gallery). We&apos;ll confirm your order on WhatsApp
+                before you pay.
+              </p>
+            )}
           </fieldset>
 
           <Field id="co-notes" label="Notes (optional)">

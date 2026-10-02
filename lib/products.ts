@@ -3,7 +3,7 @@ import { cloudinaryUrl } from "@/lib/cloudinary";
 export type Product = {
   slug: string;
   name: string;
-  category: "Perfumes" | "Bags" | "Clothing" | "Accessories" | "Beauty";
+  category: "Perfumes" | "Bags" | "Clothing" | "Heels" | "Slippers" | "Accessories" | "Beauty";
   price: number;
   originalPrice?: number;
   description: string;
@@ -29,6 +29,8 @@ export const CATEGORIES: { name: Category; blurb: string; image: string }[] = [
   { name: "Perfumes", blurb: "Extraits and eaux de parfum", image: "/images/category-perfumes.jpg" },
   { name: "Bags", blurb: "Totes and evening crossbodies", image: "/images/category-bags.jpg" },
   { name: "Clothing", blurb: "Linen, silk, cashmere and wool", image: "/images/category-clothing.jpg" },
+  { name: "Heels", blurb: "Pumps, sandals and block heels", image: "/images/category-heels.jpg" },
+  { name: "Slippers", blurb: "Slides and everyday sandals", image: "/images/category-slippers.jpg" },
   { name: "Accessories", blurb: "Gold vermeil and fine leather", image: "/images/category-accessories.jpg" },
   { name: "Beauty", blurb: "Shea balms and lip oils", image: "/images/category-beauty.jpg" },
 ];

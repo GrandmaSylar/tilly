@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
+import { TiktokLogo, InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import { CATEGORIES } from "@/lib/products";
+import { CONTACT } from "@/lib/contact";
+import { WHATSAPP_BUSINESS_NUMBER } from "@/lib/whatsapp";
 
 const SHOP_LINKS = [
   { label: "Shop everything", href: "/shop" },
@@ -24,15 +27,35 @@ export function Footer() {
             className="h-16 w-auto brightness-0 invert"
           />
           <p className="mt-5 max-w-xs text-base leading-relaxed sm:text-sm">
-            Perfumes, bags, clothing, accessories and beauty, delivered across Accra the same day.
+            Perfumes, bags, clothing, heels, slippers, accessories and beauty, delivered across Accra the same day.
           </p>
           <p className="mt-4 text-base leading-relaxed text-white/90 sm:text-sm">
-            <a href="tel:+233302008899" className="inline-flex min-h-11 items-center hover:text-sand active:text-sand sm:min-h-0">
-              +233 30 200 8899
+            <a href={`tel:${CONTACT.phoneTel}`} className="inline-flex min-h-11 items-center hover:text-sand active:text-sand sm:min-h-0">
+              {CONTACT.phoneDisplay}
             </a>
             <br />
-            Airport Residential Area, Accra, Ghana
+            {CONTACT.address}
           </p>
+          <div className="mt-3 -ml-2.5 flex gap-1">
+            <a
+              href={CONTACT.tiktok.url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Tilly's Gallery on TikTok, ${CONTACT.tiktok.handle}`}
+              className="press grid size-11 place-items-center rounded-full text-white/80 hover:bg-white/10 hover:text-white"
+            >
+              <TiktokLogo size={22} />
+            </a>
+            <a
+              href={CONTACT.instagram.url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Tilly's Gallery on Instagram, ${CONTACT.instagram.handle}`}
+              className="press grid size-11 place-items-center rounded-full text-white/80 hover:bg-white/10 hover:text-white"
+            >
+              <InstagramLogo size={22} />
+            </a>
+          </div>
         </div>
 
         <FooterColumn title="Shop" links={SHOP_LINKS} />
@@ -45,18 +68,26 @@ export function Footer() {
           <p className="font-display text-sm font-bold tracking-wide text-white uppercase">Help</p>
           <ul className="mt-3 space-y-2 text-base sm:text-sm">
             <li>
-              <a href="https://wa.me/233302008899" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center font-semibold text-sand hover:text-white active:text-white sm:min-h-9">
+              <a href={`https://wa.me/${WHATSAPP_BUSINESS_NUMBER}`} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center font-semibold text-sand hover:text-white active:text-white sm:min-h-9">
                 Order on WhatsApp
               </a>
             </li>
             <li>
-              <a href="mailto:concierge@tillysgallery.com" className="inline-flex min-h-11 items-center break-all hover:text-white active:text-white sm:min-h-9">
-                concierge@tillysgallery.com
+              <a href={CONTACT.tiktok.url} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center hover:text-white active:text-white sm:min-h-9">
+                TikTok {CONTACT.tiktok.handle}
+              </a>
+            </li>
+            <li>
+              <a href={CONTACT.instagram.url} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center break-all hover:text-white active:text-white sm:min-h-9">
+                Instagram {CONTACT.instagram.handle}
               </a>
             </li>
             <li>Same-day delivery in Greater Accra</li>
             <li>48-hour delivery nationwide</li>
-            <li>MoMo, Telecel Cash, bank transfer or cash on delivery</li>
+            <li>
+              MoMo: <span className="tabular font-semibold text-white/90">{CONTACT.momoNumber}</span>
+            </li>
+            <li>Also Telecel Cash, bank transfer or cash on delivery</li>
           </ul>
         </div>
       </div>

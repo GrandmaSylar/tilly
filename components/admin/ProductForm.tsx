@@ -10,7 +10,9 @@ import { slugify } from "@/lib/product-input";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { Card, Field, inputClass, primaryButton, secondaryButton, textareaClass } from "@/components/admin/ui";
 
-const SIZE_PRESETS = ["XS", "S", "M", "L", "XL", "XXL"];
+const CLOTHING_SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
+const SHOE_SIZES = ["36", "37", "38", "39", "40", "41", "42", "43"];
+const FOOTWEAR = ["Heels", "Slippers"];
 
 export function ProductForm({ product }: { product?: Product }) {
   const editing = !!product;
@@ -22,7 +24,9 @@ export function ProductForm({ product }: { product?: Product }) {
   const [slugTouched, setSlugTouched] = useState(editing);
   const [price, setPrice] = useState(product ? String(product.price) : "");
   const [originalPrice, setOriginalPrice] = useState(product?.originalPrice ? String(product.originalPrice) : "");
+  const [category, setCategory] = useState<string>(product?.category ?? "");
   const [sizes, setSizes] = useState<string[]>(product?.sizes ?? []);
+  const SIZE_PRESETS = FOOTWEAR.includes(category) ? SHOE_SIZES : CLOTHING_SIZES;
   const [sizeDraft, setSizeDraft] = useState("");
 
   const off = discountPercent(Number(price) || 0, Number(originalPrice) || undefined);
@@ -93,7 +97,7 @@ export function ProductForm({ product }: { product?: Product }) {
             />
           </Field>
           <Field id="category" label="Category" error={errors.category}>
-            <select id="category" name="category" defaultValue={product?.category ?? ""} required aria-invalid={!!errors.category} className={inputClass(!!errors.category)}>
+            <select id="category" name="category" value={category} onChange={(e) => setCategory(e.target.value)} required aria-invalid={!!errors.category} className={inputClass(!!errors.category)}>
               <option value="" disabled>
                 Choose a category
               </option>
@@ -164,7 +168,9 @@ export function ProductForm({ product }: { product?: Product }) {
         <Card className="flex flex-col gap-3">
           <div>
             <h2 className="font-display text-lg font-bold tracking-tight text-ink">Sizes</h2>
-            <p className="text-[15px] text-slate sm:text-sm">Leave empty for one-size items like perfume or bags.</p>
+            <p className="text-[15px] text-slate sm:text-sm">
+              {FOOTWEAR.includes(category) ? "EU shoe sizes. Add half sizes or UK sizes below if you need them." : "Leave empty for one-size items like perfume or bags."}
+            </p>
           </div>
           <div className="flex flex-wrap gap-2">
             {SIZE_PRESETS.map((s) => {

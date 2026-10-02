@@ -1,7 +1,7 @@
 # Tilly's Gallery — Product
 
 ## What it is
-Online storefront for Tilly's Gallery, an Accra, Ghana boutique selling perfumes, bags, clothing, accessories and beauty. Prices run from about GH₵400 to GH₵5,000.
+Online storefront for Tilly's Gallery, an Accra, Ghana boutique selling perfumes, bags, clothing, heels, slippers, accessories and beauty. Prices run from about GH₵400 to GH₵5,000.
 
 ## Who uses it
 Shoppers in Greater Accra and across Ghana, mostly on phones and often from social links, who want to browse, save and order fast. Payment happens off-site (MTN MoMo, Telecel Cash, bank transfer, cash on delivery).

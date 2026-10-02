@@ -44,7 +44,7 @@ export function Hero({ lead, second, from }: { lead: Product; second: Product; f
           </div>
           <p className="mt-5 flex items-start gap-2 text-base leading-snug text-slate sm:items-center sm:text-sm">
             <Check size={16} weight="bold" className="mt-1 shrink-0 text-mint-deep sm:mt-0" />
-            Same-day in Cantonments, Osu, East Legon &amp; Airport Hills. 48 hours nationwide.
+            Same-day across Accra, from Dansoman to East Legon. 48 hours nationwide.
           </p>
         </div>
 
@@ -122,7 +122,7 @@ function HeroCard({
 
 /* ─── Ticker ────────────────────────────────────────────────────────────── */
 
-const TICKER = ["Same-day in Accra", "Extraits de parfum", "Full-grain leather", "Linen & silk", "18k gold vermeil", "Pay with MoMo"];
+const TICKER = ["Same-day in Accra", "Extraits de parfum", "Full-grain leather", "Heels & slippers", "Linen & silk", "18k gold vermeil", "Pay with MoMo"];
 
 export function Ticker() {
   const items = [...TICKER, ...TICKER];
@@ -234,20 +234,22 @@ export function DealsPanel({ deals }: { deals: Product[] }) {
 /* ─── Categories ────────────────────────────────────────────────────────── */
 
 export function CategoryGrid({ counts }: { counts: Record<string, number> }) {
+  const wide = CATEGORIES.length % 2 === 1;
   return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-5">
+    // With an odd number of categories the first tile spans two columns, so every row stays full.
+    <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
       {CATEGORIES.map((c, i) => (
         <Link
           key={c.name}
           href={`/shop?category=${c.name}`}
-          className={`press group overflow-hidden rounded-[1.25rem] border border-line bg-white ${i === 4 ? "col-span-2 md:col-span-1" : ""}`}
+          className={`press group flex flex-col overflow-hidden rounded-[1.25rem] border border-line bg-white ${i === 0 && wide ? "col-span-2" : ""}`}
         >
-          <div className={`relative overflow-hidden bg-ice ${i === 4 ? "aspect-[2/1] md:aspect-square" : "aspect-square"}`}>
+          <div className={`relative overflow-hidden bg-ice ${i === 0 && wide ? "aspect-[2/1] md:aspect-auto md:flex-1" : "aspect-square"}`}>
             <Image
               src={c.image}
               alt=""
               fill
-              sizes="(min-width: 1024px) 20vw, 50vw"
+              sizes={i === 0 && wide ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 25vw, 50vw"}
               className="object-cover transition-transform duration-700 ease-[var(--ease-out)] [@media(hover:hover)]:group-hover:scale-[1.05]"
             />
           </div>

@@ -7,6 +7,7 @@ import { Heart, Minus, Plus, Truck, ShieldCheck, WhatsappLogo, Check } from "@ph
 import { productImageSrc, isLowStock, isSoldOut, type Product } from "@/lib/products";
 import { cedis, discountPercent } from "@/lib/format";
 import { WHATSAPP_BUSINESS_NUMBER } from "@/lib/whatsapp";
+import { CONTACT } from "@/lib/contact";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 
@@ -189,7 +190,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
             <InfoCard icon={<Truck size={18} weight="bold" />}>{product.delivery}</InfoCard>
             <InfoCard icon={<ShieldCheck size={18} weight="bold" />}>
-              Pay on WhatsApp with MoMo, Telecel Cash, bank transfer or cash on delivery.
+              Order on WhatsApp and pay by MoMo ({CONTACT.momoNumber}), Telecel Cash, bank transfer or cash on delivery.
             </InfoCard>
           </div>
 

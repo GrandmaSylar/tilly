@@ -6,7 +6,7 @@ import { Container } from "@/components/Section";
 
 export const metadata: Metadata = {
   title: "Categories — Tilly's Gallery",
-  description: "Perfumes, bags, clothing, accessories and beauty.",
+  description: "Perfumes, bags, clothing, heels, slippers, accessories and beauty.",
 };
 
 export default async function CategoriesPage() {
@@ -17,7 +17,7 @@ export default async function CategoriesPage() {
     <main>
       <Container className="pt-6 sm:pt-10">
         <h1 className="font-display text-[clamp(1.6rem,1.1rem+2.4vw,2.25rem)] leading-tight font-bold tracking-tight text-ink">Categories</h1>
-        <p className="mt-1 text-slate">{products.length} pieces across five categories.</p>
+        <p className="mt-1 text-slate">{products.length} pieces across {CATEGORIES.length} categories.</p>
         <div className="mt-8">
           <CategoryGrid counts={counts} />
         </div>

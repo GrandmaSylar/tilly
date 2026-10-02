@@ -6,7 +6,7 @@ import { getProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Shop everything — Tilly's Gallery",
-  description: "Perfumes, bags, clothing, accessories and beauty. Filter by price, category and deals.",
+  description: "Perfumes, bags, clothing, heels, slippers, accessories and beauty. Filter by price, category and deals.",
 };
 
 export default async function ShopPage() {

@@ -4,7 +4,7 @@
 create table if not exists public.products (
   slug            text primary key check (slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$'),
   name            text not null,
-  category        text not null check (category in ('Perfumes', 'Bags', 'Clothing', 'Accessories', 'Beauty')),
+  category        text not null,
   price           integer not null check (price > 0),
   original_price  integer check (original_price is null or original_price > 0),
   description     text not null default '',
@@ -19,6 +19,11 @@ create table if not exists public.products (
   created_at      timestamptz not null default now(),
   updated_at      timestamptz not null default now()
 );
+
+-- Kept outside the create table so re-running this file updates the allowed list.
+alter table public.products drop constraint if exists products_category_check;
+alter table public.products add constraint products_category_check
+  check (category in ('Perfumes', 'Bags', 'Clothing', 'Heels', 'Slippers', 'Accessories', 'Beauty'));
 
 create table if not exists public.activity_log (
   id            bigint generated always as identity primary key,

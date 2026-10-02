@@ -19,3 +19,5 @@ These product and category photos are stand-ins taken from Unsplash (https://uns
 | `public/images/category-clothing.jpg` | https://images.unsplash.com/photo-1558769132-cb1aea458c5e |
 | `public/images/category-accessories.jpg` | https://images.unsplash.com/photo-1608042314453-ae338d80c427 |
 | `public/images/category-beauty.jpg` | https://images.unsplash.com/photo-1638609927040-8a7e97cd9d6a |
+| `public/images/category-heels.jpg` | https://images.unsplash.com/photo-1535043934128-cf0b28d52f95 |
+| `public/images/category-slippers.jpg` | https://images.unsplash.com/photo-1613662632164-7f2b081a5b46 |
