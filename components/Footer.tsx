@@ -84,10 +84,6 @@ export function Footer() {
             </li>
             <li>Same-day delivery in Greater Accra</li>
             <li>48-hour delivery nationwide</li>
-            <li>
-              MoMo: <span className="tabular font-semibold text-white/90">{CONTACT.momoNumber}</span>
-            </li>
-            <li>Also Telecel Cash, bank transfer or cash on delivery</li>
           </ul>
         </div>
       </div>
