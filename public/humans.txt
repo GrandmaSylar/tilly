@@ -1,6 +1,6 @@
 /* TEAM */
   Creator: Phinova
-  Site: https://phinova.com
+  Site: https://phinova.dev
 
 /* SITE */
   Name: Tilly's Gallery

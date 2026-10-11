@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: "Tilly's Gallery — Perfumes, Bags, Clothing & Beauty in Accra",
   description:
     "Perfumes, leather bags, tailored clothing, gold accessories and botanical beauty. Same-day delivery in Greater Accra, 48 hours across Ghana.",
-  authors: [{ name: "Phinova", url: "https://phinova.com" }],
+  authors: [{ name: "Phinova", url: "https://phinova.dev" }],
   creator: "Phinova",
   manifest: "/manifest.webmanifest",
   applicationName: "Tilly's Gallery",

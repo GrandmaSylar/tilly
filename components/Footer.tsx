@@ -99,7 +99,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <p className="mx-auto max-w-7xl px-4 py-5 text-center text-xs text-white/50 sm:px-6">
           © {new Date().getFullYear()} Tilly&apos;s Gallery · Accra, Ghana · Website by{" "}
-          <a href="https://phinova.com" target="_blank" rel="noopener" className="transition-colors hover:text-white active:text-white">
+          <a href="https://phinova.dev" target="_blank" rel="noopener" className="transition-colors hover:text-white active:text-white">
             Phinova
           </a>
         </p>
