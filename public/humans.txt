@@ -1,0 +1,7 @@
+/* TEAM */
+  Creator: Phinova
+  Site: https://phinova.com
+
+/* SITE */
+  Name: Tilly's Gallery
+  Built by: Phinova
