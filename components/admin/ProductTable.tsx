@@ -8,6 +8,7 @@ import { CheckCircle, MagnifyingGlass, Minus, PencilSimple, Plus, Trash, X } fro
 import { CATEGORIES, isLowStock, isSoldOut, productImageSrc, type Product } from "@/lib/products";
 import { cedis } from "@/lib/format";
 import { deleteProduct, setStock, toggleFlag } from "@/app/admin/actions";
+import { useAdminHref } from "@/components/admin/AdminBase";
 import { dangerButton, inputClass, secondaryButton } from "@/components/admin/ui";
 
 const STOCK_FILTERS = [
@@ -132,6 +133,7 @@ export function ProductTable({ products }: { products: Product[] }) {
 }
 
 function ProductRow({ product: p, onDelete, onError }: { product: Product; onDelete: () => void; onError: (e: string | null) => void }) {
+  const { href: adminHref } = useAdminHref();
   const [pending, startTransition] = useTransition();
   const [stock, setStockValue] = useState(String(p.stockQuantity));
 
@@ -173,7 +175,7 @@ function ProductRow({ product: p, onDelete, onError }: { product: Product; onDel
           <Image src={productImageSrc(p, 160)} alt="" fill sizes="64px" className="object-cover" />
         </span>
         <div className="min-w-0">
-          <Link href={`/admin/products/${p.slug}`} className="-my-2.5 line-clamp-2 py-2.5 font-semibold text-ink hover:underline">
+          <Link href={adminHref(`/products/${p.slug}`)} className="-my-2.5 line-clamp-2 py-2.5 font-semibold text-ink hover:underline">
             {p.name}
           </Link>
           <p className="text-[13px] text-slate">{p.category}</p>
@@ -236,7 +238,7 @@ function ProductRow({ product: p, onDelete, onError }: { product: Product; onDel
 
         <div className="flex shrink-0 justify-end gap-1">
           <Link
-            href={`/admin/products/${p.slug}`}
+            href={adminHref(`/products/${p.slug}`)}
             aria-label={`Edit ${p.name}`}
             className="press grid size-11 place-items-center rounded-full text-brand hover:bg-mist"
           >

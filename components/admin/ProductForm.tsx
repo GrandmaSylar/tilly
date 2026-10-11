@@ -8,6 +8,7 @@ import { CATEGORIES, type Product } from "@/lib/products";
 import { cedis, discountPercent } from "@/lib/format";
 import { slugify } from "@/lib/product-input";
 import { ImageUpload } from "@/components/admin/ImageUpload";
+import { useAdminHref } from "@/components/admin/AdminBase";
 import { Card, Field, inputClass, primaryButton, secondaryButton, textareaClass } from "@/components/admin/ui";
 
 const CLOTHING_SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
@@ -15,6 +16,7 @@ const SHOE_SIZES = ["36", "37", "38", "39", "40", "41", "42", "43"];
 const FOOTWEAR = ["Heels", "Slippers"];
 
 export function ProductForm({ product }: { product?: Product }) {
+  const { href: adminHref } = useAdminHref();
   const editing = !!product;
   const [state, action, pending] = useActionState<SaveState, FormData>(saveProduct, { errors: {} });
   const errors = state.errors;
@@ -251,7 +253,7 @@ export function ProductForm({ product }: { product?: Product }) {
           <button type="submit" disabled={pending} className={primaryButton}>
             {pending ? "Saving…" : editing ? "Save changes" : "Add product"}
           </button>
-          <Link href="/admin/products" className={secondaryButton}>
+          <Link href={adminHref("/products")} className={secondaryButton}>
             Cancel
           </Link>
           {editing && (

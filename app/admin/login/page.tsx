@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { isAdmin } from "@/lib/admin-auth";
+import { adminPath } from "@/lib/admin-path";
 import { LoginForm } from "@/components/admin/LoginForm";
 
 export const metadata: Metadata = { title: "Sign in" };
 
 export default async function LoginPage() {
-  if (await isAdmin()) redirect("/admin");
+  if (await isAdmin()) redirect(adminPath());
 
   return (
     <main className="flex min-h-dvh items-center justify-center px-4 py-10">

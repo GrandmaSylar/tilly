@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { ImageSquare, UploadSimple } from "@phosphor-icons/react";
 import { cloudinaryUrl } from "@/lib/cloudinary";
+import { useAdminHref } from "@/components/admin/AdminBase";
 
 const MAX_BYTES = 10 * 1024 * 1024;
 
@@ -14,6 +15,7 @@ type Signature = { signature: string; timestamp: number; folder: string; apiKey:
  * sends the file straight to Cloudinary, and the resulting URL goes into the form.
  */
 export function ImageUpload({ name, defaultValue, error }: { name: string; defaultValue?: string; error?: string }) {
+  const { href } = useAdminHref();
   const inputRef = useRef<HTMLInputElement>(null);
   const [url, setUrl] = useState(defaultValue ?? "");
   const [progress, setProgress] = useState<number | null>(null);
@@ -26,7 +28,7 @@ export function ImageUpload({ name, defaultValue, error }: { name: string; defau
 
     setProgress(0);
     try {
-      const res = await fetch("/api/admin/cloudinary-sign", { method: "POST" });
+      const res = await fetch(href("/api/cloudinary-sign"), { method: "POST" });
       if (!res.ok) throw new Error(res.status === 401 ? "Your session expired. Sign in again." : "Couldn't prepare the upload.");
       const sig: Signature = await res.json();
 

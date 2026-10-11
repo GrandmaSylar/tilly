@@ -1,44 +1,62 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { after } from "next/server";
 import { db } from "@/lib/db";
 import { PRODUCTS_TAG, type Activity } from "@/lib/catalog";
-import { requireAdmin } from "@/lib/admin-auth";
-import { createSessionToken, safeEqual, SESSION_COOKIE, SESSION_MAX_AGE } from "@/lib/admin-session";
+import { endSession, requireAdmin, startSession } from "@/lib/admin-auth";
+import { adminPath } from "@/lib/admin-path";
+import { safeEqual } from "@/lib/admin-session";
 import { deleteUploadedImage, isAllowedImageUrl } from "@/lib/cloudinary-server";
 import { parseProductForm, type ProductFieldErrors } from "@/lib/product-input";
 import { cedis } from "@/lib/format";
 
 /* ─── Session ───────────────────────────────────────────────────────────── */
 
+const MAX_FAILURES = 5;
+const LOCKOUT_MINUTES = 15;
+
+/** Minutes left on the lockout, or 0 when password sign-in is open. */
+async function lockedForMinutes() {
+  const rows = await db()`
+    select created_at from admin_login_attempts
+    where created_at > now() - make_interval(mins => ${LOCKOUT_MINUTES})
+    order by created_at desc limit ${MAX_FAILURES}`;
+  if (rows.length < MAX_FAILURES) return 0;
+  const unlocks = new Date(rows[0].created_at as string).getTime() + LOCKOUT_MINUTES * 60_000;
+  return Math.max(1, Math.ceil((unlocks - Date.now()) / 60_000));
+}
+
 export async function login(_prev: { error?: string }, form: FormData): Promise<{ error?: string }> {
   const expected = process.env.ADMIN_PASSWORD;
   if (!expected) return { error: "Admin login isn't configured yet. Set ADMIN_PASSWORD." };
 
+  const wait = await lockedForMinutes();
+  if (wait) return { error: `Too many wrong passwords. Try again in ${wait} minute${wait === 1 ? "" : "s"}, or use your passkey.` };
+
   const password = String(form.get("password") ?? "");
   if (!safeEqual(password, expected)) {
+    await db()`insert into admin_login_attempts default values`;
+    await db()`delete from admin_login_attempts where created_at < now() - interval '1 day'`;
     await new Promise((r) => setTimeout(r, 600)); // slow down guessing
     return { error: "That password isn't right." };
   }
 
-  const store = await cookies();
-  store.set(SESSION_COOKIE, await createSessionToken(), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: SESSION_MAX_AGE,
-  });
-  redirect("/admin");
+  await db()`delete from admin_login_attempts`;
+  await startSession();
+  redirect(adminPath());
 }
 
 export async function logout() {
-  const store = await cookies();
-  store.delete(SESSION_COOKIE);
-  redirect("/admin/login");
+  await endSession();
+  redirect(adminPath("/login"));
+}
+
+export async function deletePasskey(id: string) {
+  await requireAdmin();
+  await db()`delete from admin_passkeys where id = ${id}`;
+  revalidatePath("/admin/security");
 }
 
 /* ─── Helpers ───────────────────────────────────────────────────────────── */
@@ -113,7 +131,7 @@ export async function saveProduct(_prev: SaveState, form: FormData): Promise<Sav
   }
 
   refresh();
-  redirect(`/admin/products?saved=${encodeURIComponent(slug)}`);
+  redirect(adminPath(`/products?saved=${encodeURIComponent(slug)}`));
 }
 
 export async function deleteProduct(slug: string) {

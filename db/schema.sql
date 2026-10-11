@@ -47,3 +47,21 @@ drop trigger if exists products_touch_updated_at on public.products;
 create trigger products_touch_updated_at
   before update on public.products
   for each row execute function public.touch_updated_at();
+
+-- Admin sign-in protection: failed password attempts (for lockout) and registered passkeys.
+create table if not exists public.admin_login_attempts (
+  id          bigint generated always as identity primary key,
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists admin_login_attempts_created_at_idx on public.admin_login_attempts (created_at desc);
+
+create table if not exists public.admin_passkeys (
+  id            text primary key,           -- credential id, base64url
+  public_key    text not null,              -- COSE public key, base64url
+  counter       bigint not null default 0,
+  transports    text[],
+  label         text not null default 'Passkey',
+  created_at    timestamptz not null default now(),
+  last_used_at  timestamptz
+);

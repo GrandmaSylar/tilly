@@ -6,6 +6,7 @@ import { fetchActivity, fetchProducts, fetchStorageUsage, type Activity } from "
 import { isLowStock, isSoldOut, productImageSrc } from "@/lib/products";
 import { cedis } from "@/lib/format";
 import { Card, PageTitle, primaryButton, secondaryButton } from "@/components/admin/ui";
+import { adminPath } from "@/lib/admin-path";
 import { StorageWidget } from "@/components/admin/StorageWidget";
 
 export const metadata: Metadata = { title: "Overview" };
@@ -39,8 +40,8 @@ export default async function AdminOverview() {
   const kpis = [
     { label: "Products", value: String(products.length), note: `${units} units in stock` },
     { label: "Stock value", value: cedis(value), note: "Price × units on hand" },
-    { label: "Low stock", value: String(low.length), note: "Under 10 left", href: "/admin/products?stock=low", tone: low.length ? "text-coral-deep" : "" },
-    { label: "Sold out", value: String(soldOut.length), note: "Hidden from bundles", href: "/admin/products?stock=out", tone: soldOut.length ? "text-danger" : "" },
+    { label: "Low stock", value: String(low.length), note: "Under 10 left", href: adminPath("/products?stock=low"), tone: low.length ? "text-coral-deep" : "" },
+    { label: "Sold out", value: String(soldOut.length), note: "Hidden from bundles", href: adminPath("/products?stock=out"), tone: soldOut.length ? "text-danger" : "" },
     { label: "New arrivals", value: String(products.filter((p) => p.isFeatured).length), note: "Featured on the home page" },
     { label: "Bestsellers", value: String(products.filter((p) => p.isBestseller).length), note: "Shown in the Bestsellers row" },
   ];
@@ -51,7 +52,7 @@ export default async function AdminOverview() {
         title="Overview"
         subtitle="How the catalogue is doing right now."
         action={
-          <Link href="/admin/products/new" className={primaryButton}>
+          <Link href={adminPath("/products/new")} className={primaryButton}>
             <Plus size={18} weight="bold" /> Add product
           </Link>
         }
@@ -91,7 +92,7 @@ export default async function AdminOverview() {
             <ul className="mt-3 divide-y divide-line">
               {attention.slice(0, 8).map((p) => (
                 <li key={p.slug}>
-                  <Link href={`/admin/products/${p.slug}`} className="press -mx-2 flex min-h-14 items-center gap-3 rounded-xl px-2 py-2 hover:bg-mist">
+                  <Link href={adminPath(`/products/${p.slug}`)} className="press -mx-2 flex min-h-14 items-center gap-3 rounded-xl px-2 py-2 hover:bg-mist">
                     <span className="relative size-11 shrink-0 overflow-hidden rounded-lg bg-ice">
                       <Image src={productImageSrc(p, 120)} alt="" fill sizes="44px" className="object-cover" />
                     </span>
@@ -138,10 +139,10 @@ export default async function AdminOverview() {
           <p className="text-[15px] text-slate sm:text-sm">Download every product as a spreadsheet or a JSON backup.</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <a href="/api/admin/export?format=csv" className={secondaryButton}>
+          <a href={adminPath("/api/export?format=csv")} className={secondaryButton}>
             <DownloadSimple size={18} /> CSV
           </a>
-          <a href="/api/admin/export?format=json" className={secondaryButton}>
+          <a href={adminPath("/api/export?format=json")} className={secondaryButton}>
             <DownloadSimple size={18} /> JSON
           </a>
         </div>

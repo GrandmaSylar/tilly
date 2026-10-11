@@ -1,5 +1,5 @@
 // Creates the tables and loads the launch catalogue into Neon.
-// Usage: node --env-file=.env.local scripts/db-setup.mjs
+// Usage: node --env-file=.env.local scripts/db-setup.mjs [--schema-only]
 import { readFile } from "node:fs/promises";
 import { Pool } from "@neondatabase/serverless";
 
@@ -11,7 +11,8 @@ if (!process.env.DATABASE_URL) {
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 try {
-  for (const file of ["db/schema.sql", "db/seed.sql"]) {
+  const files = process.argv.includes("--schema-only") ? ["db/schema.sql"] : ["db/schema.sql", "db/seed.sql"];
+  for (const file of files) {
     await pool.query(await readFile(new URL(`../${file}`, import.meta.url), "utf8"));
     console.log(`✓ ${file}`);
   }

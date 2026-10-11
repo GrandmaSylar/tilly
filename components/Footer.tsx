@@ -4,6 +4,7 @@ import { TiktokLogo, InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import { CATEGORIES } from "@/lib/products";
 import { CONTACT } from "@/lib/contact";
 import { WHATSAPP_BUSINESS_NUMBER } from "@/lib/whatsapp";
+import { InstallApp } from "@/components/InstallApp";
 
 const SHOP_LINKS = [
   { label: "Shop everything", href: "/shop" },
@@ -86,6 +87,9 @@ export function Footer() {
               <a href="/tillys-gallery-business-card.pdf" download className="inline-flex min-h-11 items-center hover:text-white active:text-white sm:min-h-9">
                 Download our business card
               </a>
+            </li>
+            <li>
+              <InstallApp />
             </li>
             <li>Same-day delivery in Greater Accra</li>
             <li>48-hour delivery nationwide</li>

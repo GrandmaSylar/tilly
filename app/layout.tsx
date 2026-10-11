@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -19,6 +20,10 @@ export const metadata: Metadata = {
     "Perfumes, leather bags, tailored clothing, gold accessories and botanical beauty. Same-day delivery in Greater Accra, 48 hours across Ghana.",
   authors: [{ name: "Phinova", url: "https://phinova.com" }],
   creator: "Phinova",
+  manifest: "/manifest.webmanifest",
+  applicationName: "Tilly's Gallery",
+  icons: { apple: "/icons/apple-touch-icon.png" },
+  appleWebApp: { capable: true, title: "Tilly's", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
@@ -33,7 +38,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}>{children}</body>
+      <body className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}>{children}
+        <ServiceWorkerRegister />
+      </body>
     </html>
   );
 }
