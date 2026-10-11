@@ -18,6 +18,7 @@ function useInstall() {
   const [event, setEvent] = useState<InstallEvent | null>(null);
   const [ios, setIos] = useState<null | "safari" | "other">(null);
   const [installed, setInstalled] = useState(true); // hidden until we know otherwise
+  const [desktop, setDesktop] = useState<"safari" | "firefox" | "chromium">("chromium");
 
   useEffect(() => {
     const ua = navigator.userAgent;
@@ -26,6 +27,7 @@ function useInstall() {
 
     // iPadOS reports itself as a Mac, so also look for touch.
     const iosDevice = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    setDesktop(/firefox/i.test(ua) ? "firefox" : /safari/i.test(ua) && !/chrome|chromium|edg/i.test(ua) ? "safari" : "chromium");
     setIos(iosDevice ? (/crios|fxios|edgios|opios/i.test(ua) ? "other" : "safari") : null);
 
     const onPrompt = (e: Event) => {
@@ -51,10 +53,15 @@ function useInstall() {
     return true;
   }
 
-  return { available, ios, install };
+  return { available, installed, ios, desktop, install };
 }
 
-function IosSteps({ ios }: { ios: "safari" | "other" | null }) {
+function Steps({ ios, desktop }: { ios: "safari" | "other" | null; desktop: "safari" | "firefox" | "chromium" }) {
+  if (!ios) {
+    if (desktop === "safari") return <>In Safari, choose <strong>File → Add to Dock</strong>.</>;
+    if (desktop === "firefox") return <>Firefox can&apos;t install web apps on desktop. Open this site in Chrome or Edge, then use the install icon in the address bar.</>;
+    return <>Use the install icon at the right of the address bar, or open the browser menu and choose <strong>Install Tilly&apos;s Gallery</strong>.</>;
+  }
   return (
     <>
       Tap <ShareNetwork size={16} className="-mt-0.5 inline" aria-label="Share" />{" "}
@@ -65,10 +72,10 @@ function IosSteps({ ios }: { ios: "safari" | "other" | null }) {
 
 /** "Install app" entry: a footer link on the store, a sidebar item in the admin. */
 export function InstallApp({ variant = "store" }: { variant?: "store" | "admin" }) {
-  const { available, ios, install } = useInstall();
+  const { installed, ios, desktop, install } = useInstall();
   const [help, setHelp] = useState(false);
 
-  if (!available) return null;
+  if (installed) return null;
 
   const label = variant === "admin" ? "Install admin app" : "Install our app";
   const buttonClass =
@@ -89,7 +96,7 @@ export function InstallApp({ variant = "store" }: { variant?: "store" | "admin" 
           </button>
           <p className="pr-8 font-display font-bold">{label}</p>
           <p className="mt-1 text-sm text-slate">
-            <IosSteps ios={ios} />
+            <Steps ios={ios} desktop={desktop} />
           </p>
         </div>
       )}
@@ -99,7 +106,7 @@ export function InstallApp({ variant = "store" }: { variant?: "store" | "admin" 
 
 /** One-time banner on phones, a few seconds after arriving. Dismissing it silences it for two weeks. */
 export function InstallBanner() {
-  const { available, ios, install } = useInstall();
+  const { available, ios, desktop, install } = useInstall();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -132,7 +139,7 @@ export function InstallBanner() {
         <p className="font-display font-bold">Add Tilly&apos;s Gallery to your phone</p>
         {ios ? (
           <p className="mt-0.5 text-sm text-slate">
-            <IosSteps ios={ios} />
+            <Steps ios={ios} desktop={desktop} />
           </p>
         ) : (
           <>
