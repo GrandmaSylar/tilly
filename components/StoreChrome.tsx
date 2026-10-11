@@ -4,6 +4,7 @@ import { CartDrawer } from "@/components/CartDrawer";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
+import { InstallBanner } from "@/components/InstallApp";
 
 /** Announcement bar, header, footer, cart and WhatsApp button shared by every storefront page. */
 export function StoreChrome({ children }: { children: React.ReactNode }) {
@@ -25,6 +26,7 @@ export function StoreChrome({ children }: { children: React.ReactNode }) {
         <Footer />
         <CartDrawer />
         <WhatsAppFloat />
+        <InstallBanner />
       </WishlistProvider>
     </CartProvider>
   );
