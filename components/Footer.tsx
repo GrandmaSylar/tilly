@@ -82,6 +82,11 @@ export function Footer() {
                 Instagram {CONTACT.instagram.handle}
               </a>
             </li>
+            <li>
+              <a href="/tillys-gallery-business-card.pdf" download className="inline-flex min-h-11 items-center hover:text-white active:text-white sm:min-h-9">
+                Download our business card
+              </a>
+            </li>
             <li>Same-day delivery in Greater Accra</li>
             <li>48-hour delivery nationwide</li>
           </ul>

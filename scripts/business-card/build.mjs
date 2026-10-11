@@ -224,3 +224,6 @@ spawnSync(chrome, [
 fs.writeFileSync(path.join(out, "qr-code.svg"), brandedQr(SITE_URL, 600));
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log("Done:", fs.readdirSync(out).join(", "));
+
+// Keep the website's footer download in sync with the latest build.
+fs.copyFileSync(path.join(out, "tilly-business-card-print.pdf"), path.join(root, "public/tillys-gallery-business-card.pdf"));
