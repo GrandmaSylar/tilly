@@ -17,7 +17,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 const out = path.join(root, "business-card");
 fs.mkdirSync(out, { recursive: true });
 
-const SITE_URL = "https://tilly-beige.vercel.app";
+const SITE_URL = "https://www.tillygallery.shop";
 const PHONE = "+233 54 779 0821";
 const ADDRESS = ["Mataheko, Dansoman Area,", "opposite Zoozoo, Accra, Ghana"];
 const TIKTOK = "@tillysgallery1";

@@ -81,7 +81,7 @@ export function ProductForm({ product }: { product?: Product }) {
           <Field
             id="slug"
             label="Web address"
-            hint={editing ? "Fixed after creation so saved carts and wishlists keep working." : `tilly-beige.vercel.app/shop/${slug || "…"}`}
+            hint={editing ? "Fixed after creation so saved carts and wishlists keep working." : `www.tillygallery.shop/shop/${slug || "…"}`}
             error={errors.slug}
           >
             <input

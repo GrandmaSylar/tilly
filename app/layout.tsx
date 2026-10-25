@@ -15,6 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.tillygallery.shop"),
   title: "Tilly's Gallery — Perfumes, Bags, Clothing & Beauty in Accra",
   description:
     "Perfumes, leather bags, tailored clothing, gold accessories and botanical beauty. Same-day delivery in Greater Accra, 48 hours across Ghana.",
